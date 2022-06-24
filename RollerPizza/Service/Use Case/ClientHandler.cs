@@ -26,7 +26,7 @@ namespace RollerPizza.Service.Use_Case
             foreach (var item in clients)
             {
                 Client? client = item;
-                client.Adress_ID = _adressDao.GetAdressByCPF(item.CPF_ID);
+                client.Adress = _adressDao.GetAdressByCPF(item.CPF_ID);
                 client.PayamentItems = _payamentDao.GetPayamentByCPF(item.CPF_ID).ToList();
                 result.Add(client);
             }
@@ -37,7 +37,7 @@ namespace RollerPizza.Service.Use_Case
         public Client GetClientByCPF(string cpf)
         {
             Client? client = _clientDao.GetClientByCPF(cpf);
-            client.Adress_ID = _adressDao.GetAdressByCPF(cpf);
+            client.Adress = _adressDao.GetAdressByCPF(cpf);
             client.PayamentItems = _payamentDao.GetPayamentByCPF(cpf).ToList();
 
             return client;
@@ -46,9 +46,10 @@ namespace RollerPizza.Service.Use_Case
 
         public void AddClient(Client client)
         {
-            client.Adress_ID.Adress_ID = client.CPF_ID;
+            client.Adress.Adress_ID = client.CPF_ID;
+            client.Adress.CPF_ID = client.CPF_ID;
             _clientDao.Add(client);
-            _adressDao.Add(client.Adress_ID);
+            _adressDao.Add(client.Adress);
               
         }
 
@@ -82,10 +83,10 @@ namespace RollerPizza.Service.Use_Case
             cli.NickName = client.NickName;
             cli.Password = client.Password;
             cli.Email = client.Email;
-            cli.Adress_ID = client.Adress_ID;
+            cli.Adress = client.Adress;
 
             _clientDao.Update(cli);
-            _adressDao.Update(cli.Adress_ID);
+            _adressDao.Update(cli.Adress);
         }
 
         

@@ -7,7 +7,8 @@ namespace RollerPizza.Model
         public string Payament_ID { get; set; }
         public List<Pizza> Pizzas { get; set; }
         public List<Drink> Drinks { get; set; }
-        public Client CPF_ID { get; set; }
+        public string CPF_ID { get; set; }
+        public Client Client { get; set; }
         public DateTime DateTransaction { get; set; }
         public StatusOrder StatusOrder { get; set; }
 

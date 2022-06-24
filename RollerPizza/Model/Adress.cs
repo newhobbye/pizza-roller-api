@@ -9,7 +9,8 @@
         public string Street { get; set; }
         public string Number { get; set; }
         public string Description { get; set; }
-        public Client CPF_ID { get; set; }
+        public string CPF_ID { get; set; }
+        public Client Client { get; set; }
 
         
     }
