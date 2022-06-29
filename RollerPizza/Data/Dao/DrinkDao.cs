@@ -14,14 +14,10 @@ namespace RollerPizza.Data.Dao
 
         public Drink GetById(int id)
         {
-            return _drinkContext.Drinks.Where(drink => drink.ID == id).FirstOrDefault();
+            return _drinkContext.Drinks.Where(drink => drink.Id == id).FirstOrDefault();
         }
 
-        public Drink GetByName(string name)
-        {
-            Drink drink = _drinkContext.Drinks.Where(p => p.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
-            return drink;
-        }
+        
 
         public IEnumerable<Drink> Search()
         {
@@ -44,11 +40,10 @@ namespace RollerPizza.Data.Dao
             _drinkContext.SaveChanges();
         }
 
-        public void DeleteById(int id)
+        public void Delete(Drink drink)
         {
-            Drink drink = _drinkContext.Drinks.FirstOrDefault(p => p.ID == id);
-
-            _drinkContext.Remove(drink);
+            
+            _drinkContext.Drinks.Remove(drink);
             _drinkContext.SaveChanges();
 
 

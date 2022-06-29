@@ -13,7 +13,7 @@ namespace RollerPizza.Data.Dao
 
         public Adress GetAdressByCPF(string cpf)
         {
-            return _dbContext.Adresses.FirstOrDefault(a => a.Adress_ID.Equals(cpf));
+            return _dbContext.Adresses.FirstOrDefault(a => a.AdressId.Equals(cpf));
         }
 
         public void Update(Adress adress)

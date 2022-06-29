@@ -7,14 +7,14 @@ namespace RollerPizza.Data.Dao
     {
         IEnumerable<T> Search();
         T GetById(int id);
-        T GetByName(string name);
+        //T GetByName(string name);
 
         public void Add(T item);
         
         
         public void Update(T item);
 
-        public void DeleteById(int id);
+        public void Delete(T item);
 
     }
 }

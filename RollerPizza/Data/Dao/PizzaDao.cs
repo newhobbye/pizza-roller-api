@@ -19,14 +19,14 @@ namespace RollerPizza.Data.Dao
 
         public Pizza GetById(int id)
         {
-            return _pizzaContext.Pizzas.Where(pizza => pizza.ID == id).FirstOrDefault();
+            return _pizzaContext.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
         }
 
-        public Pizza GetByName(string name)
+        /*public Pizza GetByName(string name)
         {
             Pizza pizza = _pizzaContext.Pizzas.Where(pizza => pizza.Name.ToUpper() == name.ToUpper()).FirstOrDefault(); 
             return pizza;
-        }
+        }*/
 
         
 
@@ -35,20 +35,18 @@ namespace RollerPizza.Data.Dao
             return _pizzaContext.Pizzas.ToList();
         }
 
+        
+
         public void Update(Pizza pizza)
         {
             _pizzaContext.Pizzas.Update(pizza);
             _pizzaContext.SaveChanges();
         }
 
-        public void DeleteById(int id)
+        public void Delete(Pizza pizza)
         {
-            Pizza pizza = _pizzaContext.Pizzas.FirstOrDefault(p => p.ID == id);
-
-            _pizzaContext.Remove(pizza);
+            _pizzaContext.Pizzas.Remove(pizza);
             _pizzaContext.SaveChanges();
-
-
         }
     }
 }

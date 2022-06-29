@@ -17,8 +17,8 @@ namespace RollerPizza.Service
             {
                 if ("CARRINHO".Equals(item.StatusOrder.ToString()))
                 {
-                    pizzas = item.Pizzas;
-                    drinks = item.Drinks;
+                    //pizzas = item.Pizzas;
+                    //drinks = item.Drinks;
                 }
             }
             TotalPayAndQuantityModel totalPizzas = InterateItemValue<Pizza>(pizzas);

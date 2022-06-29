@@ -55,8 +55,8 @@ namespace RollerPizza.Service.Use_Case
 
         public void AddPayament(Client client, Payament payament)
         {
-            payament.Payament_ID = client.CPF_ID;
-            payament.CPF_ID = client.CPF_ID;
+            payament.PayamentId = client.CPFId;
+            payament.CPFId = client.CPFId;
             client.PayamentItems.Add(payament);
             _clientDao.Add(client);
             _payamentDao.AddPayament(payament); 

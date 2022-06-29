@@ -12,8 +12,12 @@ namespace RollerPizza.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //mapeamento de relação. como não há, somente menção 
+            
             modelBuilder.ApplyConfiguration(new PizzaMapping());
             modelBuilder.ApplyConfiguration(new DrinkMapping());
+            modelBuilder.ApplyConfiguration(new ClientMapping());
+            modelBuilder.ApplyConfiguration(new AdressMapping());
+            modelBuilder.ApplyConfiguration(new PayamentMapping());
         }
 
         public DbSet<Pizza> Pizzas { get; set; }

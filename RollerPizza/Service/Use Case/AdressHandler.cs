@@ -42,8 +42,8 @@ namespace RollerPizza.Service.Use_Case
 
         public void Add(Client client, Adress adress)
         {
-            adress.Adress_ID = client.CPF_ID;
-            adress.CPF_ID = client.CPF_ID;
+            adress.AdressId = client.CPFId;
+            //adress.CPFId = client.CPFId;
             client.Adress = adress;
             _clientDao.Add(client);
             _adressDao.Add(adress);

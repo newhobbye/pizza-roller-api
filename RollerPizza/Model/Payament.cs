@@ -1,16 +1,19 @@
 ﻿using RollerPizza.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace RollerPizza.Model
 {
     public class Payament
     {
-        public string Payament_ID { get; set; }
-        public List<Pizza> Pizzas { get; set; }
-        public List<Drink> Drinks { get; set; }
-        public string CPF_ID { get; set; }
-        public Client Client { get; set; }
+        
+        public string PayamentId { get; set; }
+        public virtual List<Pizza> Pizzas { get; set; }
+        public virtual List<Drink> Drinks { get; set; }
+        public string CPFId { get; set; }
+        public virtual Client Client { get; set; }
+        
         public DateTime DateTransaction { get; set; }
-        public StatusOrder StatusOrder { get; set; }
+        public virtual StatusOrder StatusOrder { get; set; }
 
         public Payament()
         {

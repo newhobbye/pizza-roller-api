@@ -18,7 +18,7 @@ namespace RollerPizza.Data.Dao
 
         public Client GetClientByCPF(string cpf)
         {
-            return _dbContext.Clients.FirstOrDefault(client => client.CPF_ID.Equals(cpf));
+            return _dbContext.Clients.FirstOrDefault(client => client.CPFId.Equals(cpf));
           
         }
 
