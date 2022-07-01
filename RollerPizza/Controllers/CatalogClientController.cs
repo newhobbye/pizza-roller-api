@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RollerPizza.Data.Dao;
-using RollerPizza.Model;
+﻿using Microsoft.AspNetCore.Mvc;
+using RollerPizza.Model.ViewModel;
+using RollerPizza.Service.Use_Case;
 
 namespace RollerPizza.Controllers
 {
@@ -10,25 +9,25 @@ namespace RollerPizza.Controllers
     public class CatalogClientController : Controller
     {
 
-        private IItemDao<Pizza> _pizzaDao;
-        private IItemDao<Drink> _drinkDao;
+        private PizzaHandler _pizzaHandler;
+        private DrinkHandler _drinkHandler;
 
-        public CatalogClientController(IItemDao<Pizza> pizzaDao, IItemDao<Drink> drinkDao)
+        public CatalogClientController(PizzaHandler pizzaHandler, DrinkHandler drinkHandler)
         {
-            _pizzaDao = pizzaDao;
-            _drinkDao = drinkDao;
+            _pizzaHandler = pizzaHandler;
+            _drinkHandler = drinkHandler;
         }
 
         [HttpGet("getAllPizzas")]
-        public IEnumerable<Pizza> GetAllPizzas()
+        public IEnumerable<PizzaModel> GetAllPizzas()
         {
-            return _pizzaDao.Search();
+            return _pizzaHandler.Search();
         }
 
         [HttpGet("getAllDrinks")]
-        public IEnumerable<Drink> GetAllDrinks()
+        public IEnumerable<DrinkModel> GetAllDrinks()
         {
-            return _drinkDao.Search();
+            return _drinkHandler.Search();
         }
     }
 }

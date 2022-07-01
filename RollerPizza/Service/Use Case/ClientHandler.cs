@@ -33,6 +33,10 @@ namespace RollerPizza.Service.Use_Case
 
             return result;
         }
+        public IEnumerable<Client> GetTestClient()
+        {
+            return _clientDao.GetClients().ToList();
+        }
 
         public Client GetClientByCPF(string cpf)
         {
@@ -47,9 +51,9 @@ namespace RollerPizza.Service.Use_Case
         public void AddClient(Client client)
         {
             client.Adress.AdressId = client.CPFId;
-            //client.Adress.CPFId = client.CPFId;
+            
             _clientDao.Add(client);
-            _adressDao.Add(client.Adress);
+            //_adressDao.Add(client.Adress);
               
         }
 

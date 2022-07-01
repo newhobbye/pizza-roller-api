@@ -26,8 +26,8 @@ namespace RollerPizza.Data.Mappings
             builder.Property(p => p.Value)
                 .HasColumnType("decimal(38,2)");
 
-            builder.HasOne(h => h.Payament)
-                .WithMany(p => p.Pizzas);
+           /* builder.HasOne(h => h.Payament)
+                .WithMany(p => p.Pizzas);*/
 
         }
     }

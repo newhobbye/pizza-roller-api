@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RollerPizza.Data.Dao;
 using RollerPizza.Model;
+using RollerPizza.Model.ViewModel;
+using RollerPizza.Service.Use_Case;
 
 namespace RollerPizza.Controllers
 {
@@ -9,58 +10,58 @@ namespace RollerPizza.Controllers
     public class PizzaRollerController : Controller
     {
 
-        private IItemDao<Pizza> _pizzaDao;
-        private IItemDao<Drink> _drinkDao;
-        
-        public PizzaRollerController(IItemDao<Pizza> pizzaDao, IItemDao<Drink> drinkDao)
+        private PizzaHandler _pizzaHandler;
+        private DrinkHandler _drinkHandler;
+        private ClientHandler _clientHandler;
+
+        public PizzaRollerController(PizzaHandler pizzaHandler, DrinkHandler drinkHandler, ClientHandler clientHandler)
         {
-            _pizzaDao = pizzaDao;
-            _drinkDao = drinkDao;
-            
+            _pizzaHandler = pizzaHandler;
+            _drinkHandler = drinkHandler;
+            _clientHandler = clientHandler;
         }
 
-       
         [HttpGet("getPizza")]
-        public IEnumerable<Pizza> MenuPizzas()
+        public IEnumerable<PizzaModel> MenuPizzas()
         {
-           return _pizzaDao.Search();
+           return _pizzaHandler.Search().ToList();
            
             
         }
 
         [HttpGet("getDrink")]
-        public IEnumerable<Drink> MenuDrinks()
+        public IEnumerable<DrinkModel> MenuDrinks()
         {
-            return _drinkDao.Search();
+            return _drinkHandler.Search().ToList();
         }
        
         
         
         [HttpPost("addPizza")]
         
-        public IActionResult CreatePizza(Pizza pizza)
+        public IActionResult CreatePizza(PizzaModel pizzaModel)
         {
-            if(pizza == null)
+            if(pizzaModel == null)
             {
                 return NotFound();
             }
-
-            _pizzaDao.Add(pizza);
-            return Ok(pizza);
+            _pizzaHandler.Add(pizzaModel);
+            
+            return Ok(pizzaModel);
             
         }
 
         [HttpPost("addDrink")]
 
-        public IActionResult CreateDrink(Drink drink)
+        public IActionResult CreateDrink(DrinkModel drinkModel)
         {
-            if (drink == null)
+            if (drinkModel == null)
             {
                 return NotFound();
             }
-
-            _drinkDao.Add(drink);
-            return Ok(drink);
+            _drinkHandler.Add(drinkModel);
+           
+            return Ok(drinkModel);
 
         }
 
@@ -68,14 +69,14 @@ namespace RollerPizza.Controllers
 
         public IActionResult DeletePizzaId(int id)
         {
-            Pizza pizza = _pizzaDao.GetById(id);
+            Pizza pizza = _pizzaHandler.GetById(id);
 
             if(pizza == null)
             {
                 return NotFound("Pizza não encontrada!");
             }
             
-            _pizzaDao.DeleteById(id);
+            _pizzaHandler.DeleteById(id);
              return Ok("Pizza Removida!");
         }
 
@@ -84,13 +85,25 @@ namespace RollerPizza.Controllers
         public IActionResult DeleteDrinkId(int id)
         {
             
-            Drink drink = _drinkDao.GetById(id);
+            Drink drink = _drinkHandler.GetById(id);
             if(drink == null)
             {
                 return NotFound("Bebida não encontrada!");
             }
-            _drinkDao.DeleteById(id);
+            _drinkHandler.Delete(id);
             return Ok("Bebida removida");
+        }
+
+        [HttpPost("addClient")]
+        public IActionResult AddClient(Client client)
+        {
+            if(client == null)
+            {
+                return BadRequest("Objeto nulo ou fora do padrão");
+            }
+
+            _clientHandler.AddClient(client);
+            return Ok(client);
         }
 
     }

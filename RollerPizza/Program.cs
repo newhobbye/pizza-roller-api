@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RollerPizza.Data;
 using RollerPizza.Data.Dao;
 using RollerPizza.Model;
+using RollerPizza.Service.Use_Case;
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("ContextConnection");
@@ -17,6 +18,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<DBContext>();
 builder.Services.AddTransient<IItemDao<Pizza>, PizzaDao>();
 builder.Services.AddTransient<IItemDao<Drink>, DrinkDao>();
+//builder.Services.AddTransient<DrinkHandler>();
+//builder.Services.AddTransient<PizzaHandler>();
+//builder.Services.AddTransient<AdressHandler>();
+//builder.Services.AddTransient<ClientHandler>();
+//builder.Services.AddTransient<PayamentHandler>();
 
 var app = builder.Build();
 

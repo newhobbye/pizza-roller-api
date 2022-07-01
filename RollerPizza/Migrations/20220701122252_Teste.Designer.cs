@@ -11,7 +11,7 @@ using RollerPizza.Data;
 namespace RollerPizza.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220629145003_Teste")]
+    [Migration("20220701122252_Teste")]
     partial class Teste
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
