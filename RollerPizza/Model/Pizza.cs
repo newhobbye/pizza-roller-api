@@ -10,6 +10,8 @@
         public int Quantity { get; set; }
         public double Value { get; set; }
         public virtual Payament Payament { get; set; }
+
+        
         
     }
 }

@@ -1,5 +1,6 @@
 ﻿using RollerPizza.Data.Dao;
 using RollerPizza.Model;
+using RollerPizza.Model.ViewModel;
 
 namespace RollerPizza.Service.Use_Case
 {
@@ -17,52 +18,131 @@ namespace RollerPizza.Service.Use_Case
         }
 
 
+        #region "GET"
 
-        public IEnumerable<Client> GetClients()
+        public IEnumerable<ClientViewModelWithAdress> GetClientsWithAdress()
         {
             List<Client> clients = _clientDao.GetClients().ToList();
-            List<Client> result = new();
+            List<ClientViewModelWithAdress> clientsViewModel = new();
 
-            foreach (var item in clients)
+            foreach (Client client in clients)
             {
-                Client? client = item;
-                client.Adress = _adressDao.GetAdressByCPF(item.CPFId);
-                client.PayamentItems = _payamentDao.GetPayamentByCPF(item.CPFId).ToList();
-                result.Add(client);
+                ClientViewModelWithAdress cli = new();
+
+                cli.CPFId = client.CPFId;
+                cli.Name = client.Name;
+                cli.NickName = client.NickName;
+                cli.Email = client.Email;
+                cli.Adress = client.Adress;
+
+                clientsViewModel.Add(cli);
             }
 
-            return result;
+            return clientsViewModel;
         }
-        public IEnumerable<Client> GetTestClient()
+
+        public IEnumerable<ClientViewModel> GetClientNoAdress()
         {
-            return _clientDao.GetClients().ToList();
+            List<Client> client = _clientDao.GetClients().ToList();
+            List<ClientViewModel> clientModel = new();
+
+            foreach (var cli in client)
+            {
+                ClientViewModel model = new();
+
+                model.CPFId = cli.CPFId;
+                model.Name = cli.Name;
+                model.NickName = cli.NickName;
+                model.Email = cli.Email;
+                clientModel.Add(model);
+            }
+
+            return clientModel;
+        }
+
+        
+
+        public IEnumerable<ClientViewModelWithPayament> GetClientWithPayament()
+        {
+            List<Client> client = _clientDao.GetClients().ToList();
+            List<ClientViewModelWithPayament> clientModel = new();
+
+            foreach (var cli in client)
+            {
+                ClientViewModelWithPayament model = new();
+
+                model.CPFId = cli.CPFId;
+                model.Name = cli.Name;
+                model.NickName = cli.NickName;
+                model.Email = cli.Email;
+                model.PayamentItems = cli.PayamentItems;
+
+                clientModel.Add(model);
+            }
+
+            return clientModel;
         }
 
         public Client GetClientByCPF(string cpf)
         {
             Client? client = _clientDao.GetClientByCPF(cpf);
-            client.Adress = _adressDao.GetAdressByCPF(cpf);
-            client.PayamentItems = _payamentDao.GetPayamentByCPF(cpf).ToList();
+            //client.Adress = _adressDao.GetAdressByCPF(cpf);
+            //client.PayamentItems = _payamentDao.GetPayamentByCPF(cpf).ToList(); VERIFICAR MAIS PRA FRENTE COMO VAI FICAR
 
             return client;
 
         }
 
-        public void AddClient(Client client)
+        #endregion
+
+        #region "Add&Update"
+        public void AddClient(ClientViewModelAdd clientAdd)
         {
-            client.Adress.AdressId = client.CPFId;
             
+            Client client = new();
+
+            client.CPFId = clientAdd.CPFId;
+            client.Name = clientAdd.Name;
+            client.NickName = clientAdd.NickName;
+            client.Password = clientAdd.Password;
+            client.Email = clientAdd.Email;
+
             _clientDao.Add(client);
-            //_adressDao.Add(client.Adress);
+            
               
         }
 
+        public void UpdateClientNoAdressNoPassword(ClientViewModel clientModel)
+        {
+            Client client = _clientDao.GetClientByCPF(clientModel.CPFId);
+
+            client.Name = clientModel.Name;
+            client.NickName = clientModel.NickName;
+            client.Email = clientModel.Email;
+
+            _clientDao.Update(client);
+
+            
+        }
+
+        public void UpdateClientPassword(string CPFId, string password)
+        {
+            Client client = _clientDao.GetClientByCPF(CPFId);
+
+            client.Password = password;
+
+            _clientDao.Update(client);
+        }
+
+        #endregion
+
+        #region "Remove"
         public void RemoveClient(string cpf)
         {
             Client client = _clientDao.GetClientByCPF(cpf);
             Adress adress = _adressDao.GetAdressByCPF(cpf);
-            _clientDao.Remove(client);
             _adressDao.Remove(adress);
+            _clientDao.Remove(client);
             
             
         }
@@ -78,21 +158,8 @@ namespace RollerPizza.Service.Use_Case
 
         }
 
-        public void UpdateClient(Client client)
-        {
-            Client cli = GetClientByCPF(client.CPFId);
+        #endregion
 
-            
-            cli.Name = client.Name;
-            cli.NickName = client.NickName;
-            cli.Password = client.Password;
-            cli.Email = client.Email;
-            cli.Adress = client.Adress;
 
-            _clientDao.Update(cli);
-            _adressDao.Update(cli.Adress);
-        }
-
-        
     }
 }

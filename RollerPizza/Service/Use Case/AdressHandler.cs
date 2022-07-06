@@ -1,53 +1,93 @@
 ﻿using RollerPizza.Data.Dao;
 using RollerPizza.Model;
+using RollerPizza.Model.ViewModel;
 
 namespace RollerPizza.Service.Use_Case
 {
     public class AdressHandler
     {
         private AdressDao _adressDao;
-        private ClientDao _clientDao;
 
-        public AdressHandler(AdressDao adressDao, ClientDao clientDao)
+        public AdressHandler(AdressDao adressDao)
         {
             _adressDao = adressDao;
-            _clientDao = clientDao;
         }
 
 
-        public Adress GetAdressByCPF(string cpf)
+
+        #region"GET"
+
+        public AdressViewModel GetAdressByCPF(string cpf)
         {
-            return _adressDao.GetAdressByCPF(cpf);
+            Adress adress = _adressDao.GetAdressByCPF(cpf);
+            AdressViewModel adressViewModel = new();
+
+            if(adress == null) return adressViewModel;
+
+            adressViewModel.AdressId = adress.AdressId;
+            adressViewModel.CEP = adress.CEP;
+            adressViewModel.City = adress.City;
+            adressViewModel.District = adress.District;
+            adressViewModel.Street = adress.Street;
+            adressViewModel.Number = adress.Number;
+            adressViewModel.Description = adress.Description;
+            adressViewModel.ClientId = adress.ClientId;
+
+            return adressViewModel;
         }
 
-        public void Update(Adress adress)
-        {
-            Adress add = new();
+        #endregion
 
-            add.CEP = adress.CEP;
-            add.City = adress.City;
-            add.District = adress.District;
-            add.Street = adress.Street;
-            add.Number = adress.Number;
-            add.Description = adress.Description;
+        #region"Add&Update"
+
+        public void Update(AdressAddViewModel adressAddViewModel)
+        {
+            Adress add = _adressDao.GetAdressByCPF(adressAddViewModel.ClientId);
+
+            add.CEP = adressAddViewModel.CEP;
+            add.City = adressAddViewModel.City;
+            add.District = adressAddViewModel.District;
+            add.Street = adressAddViewModel.Street;
+            add.Number = adressAddViewModel.Number;
+            add.Description = adressAddViewModel.Description;
+
+            _adressDao.Update(add);
+
+        }
+
+        public void Add(AdressAddViewModel adressViewModel)
+        {
+            Adress adress = new();
+
+            adress.CEP = adressViewModel.CEP;
+            adress.City = adressViewModel.City;
+            adress.District = adressViewModel.District;
+            adress.Street = adressViewModel.Street;
+            adress.Number = adressViewModel.Number;
+            adress.Description = adressViewModel.Description;
+            adress.ClientId = adressViewModel.ClientId;
+
+            //adress.AdressId = adress.ClientId;
+            _adressDao.Add(adress);
             
-            _adressDao.Add(add);
-            
+
+
         }
 
-        public void Remove(Adress adress)
+        #endregion
+
+        #region"Remove"
+        public void Remove(string CPFId)
         {
+            Adress adress = _adressDao.GetAdressByCPF(CPFId);
             _adressDao.Remove(adress);
         }
 
-        public void Add(Client client, Adress adress)
-        {
-            adress.AdressId = client.CPFId;
-            //adress.CPFId = client.CPFId;
-            client.Adress = adress;
-            _clientDao.Add(client);
-            _adressDao.Add(adress);
+        #endregion
 
-        }
+
+
+
+
     }
 }

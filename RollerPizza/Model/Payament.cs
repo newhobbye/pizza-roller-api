@@ -1,5 +1,6 @@
 ﻿using RollerPizza.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace RollerPizza.Model
 {
@@ -10,6 +11,7 @@ namespace RollerPizza.Model
         public virtual List<Pizza> Pizzas { get; set; }
         public virtual List<Drink> Drinks { get; set; }
         public string CPFId { get; set; }
+        [JsonIgnore]
         public virtual Client Client { get; set; }
         
         public DateTime DateTransaction { get; set; }

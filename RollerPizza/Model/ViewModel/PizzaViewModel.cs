@@ -1,6 +1,6 @@
 ﻿namespace RollerPizza.Model.ViewModel
 {
-    public class DrinkModel
+    public class PizzaViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

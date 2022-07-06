@@ -16,31 +16,35 @@ namespace RollerPizza.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("RollerPizza.Model.Adress", b =>
                 {
                     b.Property<string>("AdressId")
-                        .HasColumnType("varchar(11)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<sbyte>("CEP")
-                        .HasColumnType("tinyint(8)");
+                    b.Property<string>("CEP")
+                        .IsRequired()
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
 
+                    b.Property<string>("ClientId")
+                        .HasColumnType("varchar(11)");
+
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("varchar(120)");
 
                     b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
 
-                    b.Property<sbyte>("Number")
-                        .HasColumnType("tinyint(10)");
+                    b.Property<short>("Number")
+                        .HasColumnType("smallint(10)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -48,16 +52,15 @@ namespace RollerPizza.Migrations
 
                     b.HasKey("AdressId");
 
+                    b.HasIndex("ClientId")
+                        .IsUnique();
+
                     b.ToTable("Adress", (string)null);
                 });
 
             modelBuilder.Entity("RollerPizza.Model.Client", b =>
                 {
                     b.Property<string>("CPFId")
-                        .HasColumnType("varchar(11)");
-
-                    b.Property<string>("AdressId")
-                        .IsRequired()
                         .HasColumnType("varchar(11)");
 
                     b.Property<string>("Email")
@@ -70,7 +73,7 @@ namespace RollerPizza.Migrations
 
                     b.Property<string>("NickName")
                         .IsRequired()
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -78,9 +81,6 @@ namespace RollerPizza.Migrations
                         .HasColumnType("varchar(9)");
 
                     b.HasKey("CPFId");
-
-                    b.HasIndex("AdressId")
-                        .IsUnique();
 
                     b.ToTable("Client", (string)null);
                 });
@@ -171,15 +171,13 @@ namespace RollerPizza.Migrations
                     b.ToTable("Pizza", (string)null);
                 });
 
-            modelBuilder.Entity("RollerPizza.Model.Client", b =>
+            modelBuilder.Entity("RollerPizza.Model.Adress", b =>
                 {
-                    b.HasOne("RollerPizza.Model.Adress", "Adress")
-                        .WithOne("Client")
-                        .HasForeignKey("RollerPizza.Model.Client", "AdressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("RollerPizza.Model.Client", "Client")
+                        .WithOne("Adress")
+                        .HasForeignKey("RollerPizza.Model.Adress", "ClientId");
 
-                    b.Navigation("Adress");
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("RollerPizza.Model.Drink", b =>
@@ -215,14 +213,10 @@ namespace RollerPizza.Migrations
                     b.Navigation("Payament");
                 });
 
-            modelBuilder.Entity("RollerPizza.Model.Adress", b =>
-                {
-                    b.Navigation("Client")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RollerPizza.Model.Client", b =>
                 {
+                    b.Navigation("Adress");
+
                     b.Navigation("PayamentItems");
                 });
 

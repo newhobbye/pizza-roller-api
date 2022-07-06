@@ -6,30 +6,19 @@ namespace RollerPizza.Service.Use_Case
 {
     public class PizzaHandler
     {
-        private PizzaDao _pizzaDao;
+        private IItemDao<Pizza> _pizzaDao;
 
-        public PizzaHandler(PizzaDao pizzaDao)
+        public PizzaHandler(IItemDao<Pizza> pizzaDao)
         {
             _pizzaDao = pizzaDao;
         }
 
-        public void Add(PizzaModel pizzaModel)
-        {
-            Pizza pizza = new();
+        #region"GET"
 
-            pizza.Id = pizzaModel.Id;
-            pizza.Name = pizzaModel.Name;
-            pizza.Description = pizzaModel.Description;
-            pizza.Quantity = pizzaModel.Quantity;
-            pizza.Value = pizzaModel.Value;
-
-            _pizzaDao.Add(pizza);
-        }
-
-        public PizzaModel GetByIdModel(int id)
+        public PizzaViewModel GetByIdModel(int id)
         {
             Pizza p = _pizzaDao.GetById(id);
-            PizzaModel pizza = new();
+            PizzaViewModel pizza = new();
             pizza.Id = p.Id;
             pizza.Name = p.Name;
             pizza.Description = p.Description;
@@ -43,12 +32,12 @@ namespace RollerPizza.Service.Use_Case
             return _pizzaDao.GetById(id);
         }
 
-        public PizzaModel GetByName(string name)
+        public PizzaViewModel GetByName(string name)
         {
             Pizza pizza = _pizzaDao.Search().Where(
                 p => p.Name.ToUpper().Contains(name.ToUpper())).FirstOrDefault();
 
-            PizzaModel pizzaModel = new();
+            PizzaViewModel pizzaModel = new();
             pizzaModel.Id = pizza.Id;
             pizzaModel.Name = pizza.Name;
             pizzaModel.Description = pizza.Description;
@@ -58,14 +47,14 @@ namespace RollerPizza.Service.Use_Case
             return pizzaModel;
         }
 
-        public IEnumerable<PizzaModel> Search()
+        public IEnumerable<PizzaViewModel> Search()
         {
             List<Pizza> pizzas = _pizzaDao.Search().ToList();
-            List<PizzaModel> pizzaModels = new();
+            List<PizzaViewModel> pizzaModels = new();
 
             foreach (var pizza in pizzas)
             {
-                PizzaModel item = new();
+                PizzaViewModel item = new();
                 item.Id = pizza.Id;
                 item.Name = pizza.Name;
                 item.Description = pizza.Description;
@@ -77,7 +66,11 @@ namespace RollerPizza.Service.Use_Case
             return pizzaModels;
         }
 
-        public void Update(PizzaModel pizzaModel)
+        #endregion
+
+        #region"Add&Update"
+
+        public void Add(PizzaViewModel pizzaModel)
         {
             Pizza pizza = new();
 
@@ -87,14 +80,33 @@ namespace RollerPizza.Service.Use_Case
             pizza.Quantity = pizzaModel.Quantity;
             pizza.Value = pizzaModel.Value;
 
+            _pizzaDao.Add(pizza);
+        }
+
+
+
+        public void Update(PizzaViewModel pizzaModel, int id)
+        {
+            Pizza pizza = _pizzaDao.GetById(id);
+
+            pizza.Name = pizzaModel.Name;
+            pizza.Description = pizzaModel.Description;
+            pizza.Quantity = pizzaModel.Quantity;
+            pizza.Value = pizzaModel.Value;
+
             _pizzaDao.Update(pizza);
         }
 
+        #endregion
+
+        #region"Remove"
         public void DeleteById(int id)
         {
             Pizza pizza = _pizzaDao.GetById(id);
             _pizzaDao.Delete(pizza);
 
         }
+
+        #endregion
     }
 }

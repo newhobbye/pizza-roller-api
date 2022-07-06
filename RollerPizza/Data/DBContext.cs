@@ -7,7 +7,7 @@ namespace RollerPizza.Data
     public class DBContext : DbContext, IDBContext
     {
         public DBContext(DbContextOptions<DBContext> options) : base(options) => Database.EnsureCreated();//se nao houver, cria
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

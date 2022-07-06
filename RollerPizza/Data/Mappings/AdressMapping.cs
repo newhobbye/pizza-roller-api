@@ -12,12 +12,11 @@ namespace RollerPizza.Data.Mappings
 
             builder.HasKey(k => k.AdressId);
             builder.Property(k => k.AdressId)
-                .HasColumnType("varchar(11)")
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder.Property(c => c.CEP)
-                .HasColumnType("tinyint(8)")
+                .HasColumnType("varchar(8)")
                 .IsRequired();
 
             builder.Property(c => c.City)
@@ -33,14 +32,12 @@ namespace RollerPizza.Data.Mappings
                 .IsRequired();
 
             builder.Property(n => n.Number)
-                .HasColumnType("tinyint(10)")
+                .HasColumnType("smallint(10)")
                 .IsRequired();
 
             builder.Property(d => d.Description)
                 .HasColumnType("varchar(120)");
-
-            
-                
+     
         }
     }
 }

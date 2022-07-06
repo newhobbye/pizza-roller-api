@@ -6,34 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RollerPizza.Migrations
 {
-    public partial class Teste : Migration
+    public partial class teste : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Adress",
-                columns: table => new
-                {
-                    AdressId = table.Column<string>(type: "varchar(11)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CEP = table.Column<sbyte>(type: "tinyint(8)", nullable: false),
-                    City = table.Column<string>(type: "varchar(15)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    District = table.Column<string>(type: "varchar(15)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Street = table.Column<string>(type: "varchar(25)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Number = table.Column<sbyte>(type: "tinyint(10)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(120)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Adress", x => x.AdressId);
-                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -44,24 +21,47 @@ namespace RollerPizza.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NickName = table.Column<string>(type: "varchar(5)", nullable: false)
+                    NickName = table.Column<string>(type: "varchar(15)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(9)", maxLength: 9, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "varchar(100)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    AdressId = table.Column<string>(type: "varchar(11)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Client", x => x.CPFId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Adress",
+                columns: table => new
+                {
+                    AdressId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CEP = table.Column<string>(type: "varchar(8)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    City = table.Column<string>(type: "varchar(15)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    District = table.Column<string>(type: "varchar(15)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Street = table.Column<string>(type: "varchar(25)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Number = table.Column<short>(type: "smallint(10)", nullable: false),
+                    Description = table.Column<string>(type: "varchar(120)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<string>(type: "varchar(11)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Adress", x => x.AdressId);
                     table.ForeignKey(
-                        name: "FK_Client_Adress_AdressId",
-                        column: x => x.AdressId,
-                        principalTable: "Adress",
-                        principalColumn: "AdressId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Adress_Client_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Client",
+                        principalColumn: "CPFId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -144,9 +144,9 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Client_AdressId",
-                table: "Client",
-                column: "AdressId",
+                name: "IX_Adress_ClientId",
+                table: "Adress",
+                column: "ClientId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -168,6 +168,9 @@ namespace RollerPizza.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Adress");
+
+            migrationBuilder.DropTable(
                 name: "Drink");
 
             migrationBuilder.DropTable(
@@ -178,9 +181,6 @@ namespace RollerPizza.Migrations
 
             migrationBuilder.DropTable(
                 name: "Client");
-
-            migrationBuilder.DropTable(
-                name: "Adress");
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RollerPizza.Data.Mappings
                 .IsRequired();
 
             builder.Property(ni => ni.NickName)
-                .HasColumnType("varchar(5)")
+                .HasColumnType("varchar(15)")
                 .IsRequired();
 
             builder.Property(p => p.Password)
@@ -33,9 +33,11 @@ namespace RollerPizza.Data.Mappings
                 .HasColumnType("varchar(100)")
                 .IsRequired();
 
-            builder.HasOne(adress => adress.Adress)
-                .WithOne(client => client.Client)
-                .HasForeignKey<Client>(client => client.AdressId);
+            builder.HasOne(client => client.Adress)
+                .WithOne(adress => adress.Client)
+                .HasForeignKey<Adress>(adress => adress.ClientId);
+            //aqui não só estou definindo a relação, como tambem estou definindo que para um endereço
+            //existir, um cliente precisa existir antes (Objeto dependente).
 
             
 

@@ -6,17 +6,18 @@ namespace RollerPizza.Service.Use_Case
 {
     public class DrinkHandler
     {
-        private DrinkDao _drinkDao;
+        private IItemDao<Drink> _drinkDao;
 
-        public DrinkHandler(DrinkDao drinkDao)
+
+        public DrinkHandler(IItemDao<Drink> drinkDao)
         {
             _drinkDao = drinkDao;
         }
 
-        public DrinkModel GetByIdModel(int id)
+        public DrinkViewModel GetByIdModel(int id)
         {
             Drink drink = _drinkDao.GetById(id);
-            DrinkModel drinkModel = new();
+            DrinkViewModel drinkModel = new();
 
             drinkModel.Id = drink.Id;
             drinkModel.Name = drink.Name;
@@ -32,10 +33,10 @@ namespace RollerPizza.Service.Use_Case
             return _drinkDao.GetById(id);
         }
 
-        public DrinkModel GetByName(string name)
+        public DrinkViewModel GetByName(string name)
         {
             Drink drink = _drinkDao.Search().Where(d => d.Name.ToUpper().Contains(name.ToUpper())).FirstOrDefault();
-            DrinkModel drinkModel = new();
+            DrinkViewModel drinkModel = new();
 
             drinkModel.Id = drink.Id;
             drinkModel.Name = drink.Name;
@@ -46,14 +47,14 @@ namespace RollerPizza.Service.Use_Case
             return drinkModel;
         }
 
-        public IEnumerable<DrinkModel> Search()
+        public IEnumerable<DrinkViewModel> Search()
         {
             List<Drink> drinks = _drinkDao.Search().ToList();
-            List<DrinkModel> drinkModels = new();
+            List<DrinkViewModel> drinkModels = new();
 
             foreach (Drink drink in drinks)
             {
-                DrinkModel drinkModel = new();
+                DrinkViewModel drinkModel = new();
 
                 drinkModel.Id = drink.Id;
                 drinkModel.Name = drink.Name;
@@ -66,7 +67,7 @@ namespace RollerPizza.Service.Use_Case
             return drinkModels;
         }
 
-        public void Add(DrinkModel drinkModel)
+        public void Add(DrinkViewModel drinkModel)
         {
             Drink drink = new();
 
@@ -78,7 +79,7 @@ namespace RollerPizza.Service.Use_Case
             _drinkDao.Add(drink);
         }
 
-        public void Update(DrinkModel drinkModel)
+        public void Update(DrinkViewModel drinkModel)
         {
             Drink drink = new();
 

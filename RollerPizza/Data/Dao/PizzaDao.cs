@@ -22,12 +22,6 @@ namespace RollerPizza.Data.Dao
             return _pizzaContext.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
         }
 
-        /*public Pizza GetByName(string name)
-        {
-            Pizza pizza = _pizzaContext.Pizzas.Where(pizza => pizza.Name.ToUpper() == name.ToUpper()).FirstOrDefault(); 
-            return pizza;
-        }*/
-
         
 
         public IEnumerable<Pizza> Search()
