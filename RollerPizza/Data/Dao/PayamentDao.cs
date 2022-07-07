@@ -13,9 +13,14 @@ namespace RollerPizza.Data.Dao
 
 
 
-        public IEnumerable<Payament> GetPayamentByCPF(string cpf)
+        public IEnumerable<Payament> GetPayamentsByCPF(string cpf)
         {
             return _dbContext.Payaments.Where(p => p.CPFId.Equals(cpf)).ToList();
+        }
+
+        public Payament GetPayamentByCPF(string cpf)
+        {
+            return _dbContext.Payaments.Where( p => p.CPFId.Equals(cpf)).FirstOrDefault();
         }
 
         public IEnumerable<Payament> GetAll()
@@ -54,7 +59,7 @@ namespace RollerPizza.Data.Dao
 
         public void RemoveAllPayamentsByCPF(string cpf)
         {
-            List<Payament> payamentsClient = GetPayamentByCPF(cpf).ToList();
+            List<Payament> payamentsClient = GetPayamentsByCPF(cpf).ToList();
 
             foreach (Payament payament in payamentsClient)
             {

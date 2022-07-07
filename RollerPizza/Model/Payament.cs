@@ -7,12 +7,12 @@ namespace RollerPizza.Model
     public class Payament
     {
         
-        public string PayamentId { get; set; }
+        public string? PayamentId { get; set; }
         public virtual List<Pizza> Pizzas { get; set; }
         public virtual List<Drink> Drinks { get; set; }
-        public string CPFId { get; set; }
+        public string? CPFId { get; set; }
         [JsonIgnore]
-        public virtual Client Client { get; set; }
+        public virtual Client? Client { get; set; }
         
         public DateTime DateTransaction { get; set; }
         public virtual StatusOrder StatusOrder { get; set; }
