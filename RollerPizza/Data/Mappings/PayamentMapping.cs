@@ -21,11 +21,11 @@ namespace RollerPizza.Data.Mappings
                 .HasColumnType("varchar(15)");
 
 
-            builder.HasMany(p => p.Pizzas)
-                .WithOne(p => p.Payament);
+            builder.HasMany(p => p.Pizzas) //trocar para withMany
+                .WithMany(p => p.Payament);
 
             builder.HasMany(d => d.Drinks)
-                .WithOne(d => d.Payament);
+                .WithMany(d => d.Payament);
 
             builder.HasOne(pagamento => pagamento.Client)
                 .WithMany(cliente => cliente.PayamentItems)

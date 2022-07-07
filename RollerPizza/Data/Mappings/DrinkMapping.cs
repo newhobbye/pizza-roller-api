@@ -11,6 +11,8 @@ namespace RollerPizza.Data.Mappings
             builder.ToTable("Drink");
 
             builder.HasKey(c => c.Id);
+            builder.Property(k => k.Id)
+                .IsRequired();
 
             builder.Property(p => p.Name)
                 .HasColumnType("varchar(100)")
@@ -26,8 +28,8 @@ namespace RollerPizza.Data.Mappings
             builder.Property(p => p.Value)
                 .HasColumnType("decimal(38,2)");
 
-           /* builder.HasOne(h => h.Payament)
-                .WithMany(d => d.Drinks);*/
+            builder.HasMany(h => h.Payament)
+                .WithMany(d => d.Drinks);
         }
     }
 }

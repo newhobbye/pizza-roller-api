@@ -14,6 +14,8 @@ namespace RollerPizza.Service.Use_Case
             _drinkDao = drinkDao;
         }
 
+        #region"GET"
+
         public DrinkViewModel GetByIdModel(int id)
         {
             Drink drink = _drinkDao.GetById(id);
@@ -67,10 +69,14 @@ namespace RollerPizza.Service.Use_Case
             return drinkModels;
         }
 
+        #endregion
+
+        #region"Add&Update"
         public void Add(DrinkViewModel drinkModel)
         {
             Drink drink = new();
 
+            drink.Id = drinkModel.Id;
             drink.Name = drinkModel.Name;
             drink.Description = drinkModel.Description;
             drink.Quantity = drinkModel.Quantity;
@@ -79,10 +85,11 @@ namespace RollerPizza.Service.Use_Case
             _drinkDao.Add(drink);
         }
 
-        public void Update(DrinkViewModel drinkModel)
+        public void Update(DrinkViewModel drinkModel, int id)
         {
-            Drink drink = new();
+            Drink drink = _drinkDao.GetById(id);
 
+            drink.Id = drinkModel.Id;
             drink.Name = drinkModel.Name;
             drink.Description = drinkModel.Description;
             drink.Quantity = drinkModel.Quantity;
@@ -91,10 +98,16 @@ namespace RollerPizza.Service.Use_Case
             _drinkDao.Update(drink);
         }
 
+        #endregion
+
+        #region"Delete"
+
         public void Delete(int id)
         {
             Drink drink = _drinkDao.GetById(id);
             _drinkDao.Delete(drink);
         }
+
+        #endregion
     }
 }

@@ -132,30 +132,30 @@ namespace RollerPizza.Controllers
 
         [HttpDelete("deletePizza/{idPizza}")]
 
-        public IActionResult DeletePizzaId([FromBody] int id)
+        public IActionResult DeletePizzaId(int idPizza)
         {
-            Pizza pizza = _pizzaHandler.GetById(id);
+            Pizza pizza = _pizzaHandler.GetById(idPizza);
 
             if (pizza == null)
             {
                 return NotFound("Pizza não encontrada!");
             }
 
-            _pizzaHandler.DeleteById(id);
+            _pizzaHandler.DeleteById(idPizza);
             return Ok("Pizza Removida!");
         }
 
         [HttpDelete("deleteDrink/{idDrink}")]
 
-        public IActionResult DeleteDrinkId([FromBody] int id)
+        public IActionResult DeleteDrinkId(int idDrink)
         {
 
-            Drink drink = _drinkHandler.GetById(id);
+            Drink drink = _drinkHandler.GetById(idDrink);
             if (drink == null)
             {
                 return NotFound("Bebida não encontrada!");
             }
-            _drinkHandler.Delete(id);
+            _drinkHandler.Delete(idDrink);
             return Ok("Bebida removida");
         }
 
@@ -192,8 +192,9 @@ namespace RollerPizza.Controllers
 
         #region "PUT"
 
+
         [HttpPut("updateClientNoAdressNoPassword")]
-        public IActionResult UpdateClientNoAdressNoPassword(ClientViewModel client)
+        public IActionResult UpdateClientNoAdressNoPassword([FromBody] ClientViewModel client)
         {
             if(client.CPFId == null)
             {
@@ -219,7 +220,7 @@ namespace RollerPizza.Controllers
         }
 
         [HttpPut("updateAdress")]
-        public IActionResult UpdateAdress(AdressAddViewModel adress)
+        public IActionResult UpdateAdress([FromBody] AdressAddViewModel adress)
         {
             AdressViewModel verification = _adressHandler.GetAdressByCPF(adress.ClientId);
 
@@ -244,6 +245,20 @@ namespace RollerPizza.Controllers
             }
 
             _pizzaHandler.Update(pizzaModel, id);
+
+            return Ok("Pizza alterada!");
+        }
+
+        [HttpPut("updateDrink")]
+        public IActionResult UpdateDrink(DrinkViewModel drinkModel, int id)
+        {
+            Drink drink = _drinkHandler.GetById(id);
+            if (drink == null)
+            {
+                return NotFound("Pizza não encontrada!");
+            }
+
+            _drinkHandler.Update(drinkModel, id); 
 
             return Ok("Pizza alterada!");
         }

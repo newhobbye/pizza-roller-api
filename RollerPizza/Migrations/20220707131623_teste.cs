@@ -35,6 +35,44 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Drink",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(300)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Quantity = table.Column<sbyte>(type: "tinyint(100)", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(38,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drink", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Pizza",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(300)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Quantity = table.Column<sbyte>(type: "tinyint(100)", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(38,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pizza", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Adress",
                 columns: table => new
                 {
@@ -90,25 +128,24 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Drink",
+                name: "DrinkPayament",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(300)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Quantity = table.Column<sbyte>(type: "tinyint(100)", nullable: false),
-                    Value = table.Column<decimal>(type: "decimal(38,2)", nullable: false),
+                    DrinksId = table.Column<int>(type: "int", nullable: false),
                     PayamentId = table.Column<string>(type: "varchar(11)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drink", x => x.Id);
+                    table.PrimaryKey("PK_DrinkPayament", x => new { x.DrinksId, x.PayamentId });
                     table.ForeignKey(
-                        name: "FK_Drink_Payament_PayamentId",
+                        name: "FK_DrinkPayament_Drink_DrinksId",
+                        column: x => x.DrinksId,
+                        principalTable: "Drink",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DrinkPayament_Payament_PayamentId",
                         column: x => x.PayamentId,
                         principalTable: "Payament",
                         principalColumn: "PayamentId",
@@ -117,28 +154,27 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Pizza",
+                name: "PayamentPizza",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(300)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Quantity = table.Column<sbyte>(type: "tinyint(100)", nullable: false),
-                    Value = table.Column<decimal>(type: "decimal(38,2)", nullable: false),
                     PayamentId = table.Column<string>(type: "varchar(11)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PizzasId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pizza", x => x.Id);
+                    table.PrimaryKey("PK_PayamentPizza", x => new { x.PayamentId, x.PizzasId });
                     table.ForeignKey(
-                        name: "FK_Pizza_Payament_PayamentId",
+                        name: "FK_PayamentPizza_Payament_PayamentId",
                         column: x => x.PayamentId,
                         principalTable: "Payament",
                         principalColumn: "PayamentId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PayamentPizza_Pizza_PizzasId",
+                        column: x => x.PizzasId,
+                        principalTable: "Pizza",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -150,8 +186,8 @@ namespace RollerPizza.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Drink_PayamentId",
-                table: "Drink",
+                name: "IX_DrinkPayament_PayamentId",
+                table: "DrinkPayament",
                 column: "PayamentId");
 
             migrationBuilder.CreateIndex(
@@ -160,9 +196,9 @@ namespace RollerPizza.Migrations
                 column: "CPFId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pizza_PayamentId",
-                table: "Pizza",
-                column: "PayamentId");
+                name: "IX_PayamentPizza_PizzasId",
+                table: "PayamentPizza",
+                column: "PizzasId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -171,13 +207,19 @@ namespace RollerPizza.Migrations
                 name: "Adress");
 
             migrationBuilder.DropTable(
+                name: "DrinkPayament");
+
+            migrationBuilder.DropTable(
+                name: "PayamentPizza");
+
+            migrationBuilder.DropTable(
                 name: "Drink");
 
             migrationBuilder.DropTable(
-                name: "Pizza");
+                name: "Payament");
 
             migrationBuilder.DropTable(
-                name: "Payament");
+                name: "Pizza");
 
             migrationBuilder.DropTable(
                 name: "Client");
