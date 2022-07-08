@@ -13,7 +13,7 @@ namespace RollerPizza.Model
         public string? CPFId { get; set; }
         [JsonIgnore]
         public virtual Client? Client { get; set; }
-        
+        public double? TotalPay { get; set; }
         public DateTime DateTransaction { get; set; }
         public virtual StatusOrder StatusOrder { get; set; }
 

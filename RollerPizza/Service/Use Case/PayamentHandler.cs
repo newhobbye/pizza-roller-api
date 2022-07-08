@@ -26,6 +26,22 @@ namespace RollerPizza.Service.Use_Case
             return payamentViewModels;
         }
 
+        public PayamentViewModel GetOnePayamentByCPF(string cpf)
+        {
+            Payament payament = _payamentDao.GetPayamentByCPF(cpf);
+            PayamentViewModel payamentViewModel = new();
+
+            payamentViewModel.PayamentId = payament.PayamentId;
+            payamentViewModel.Pizzas = payament.Pizzas;
+            payamentViewModel.Drinks = payament.Drinks;
+            payamentViewModel.CPFId = payament.CPFId;
+            payamentViewModel.TotalPay = payament.TotalPay;
+            payamentViewModel.DateTransaction = payament.DateTransaction;
+            payamentViewModel.StatusOrder = payament.StatusOrder;
+
+            return payamentViewModel;
+        }
+
         public IEnumerable<PayamentViewModel> GetAllPayaments()
         {
             List<Payament> payaments = _payamentDao.GetAll().ToList();
@@ -78,6 +94,7 @@ namespace RollerPizza.Service.Use_Case
                 payamentViewModel.Pizzas = payament.Pizzas;
                 payamentViewModel.Drinks = payament.Drinks;
                 payamentViewModel.CPFId = payament.CPFId;
+                payamentViewModel.TotalPay = payament.TotalPay;
                 payamentViewModel.DateTransaction = payament.DateTransaction;
                 payamentViewModel.StatusOrder = payament.StatusOrder;
 
@@ -91,11 +108,8 @@ namespace RollerPizza.Service.Use_Case
         #region"Add&Update"
         public void AddPayament(Client client, PayamentAddViewModel payamentAddViewModel)
         {
-            Payament payament = new();
-
+            Payament payament = TransformDataPayament(payamentAddViewModel);
             payament.PayamentId = client.CPFId;
-            payament.Pizzas = payamentAddViewModel.Pizzas;
-            payament.Drinks = payamentAddViewModel.Drinks;
             payament.CPFId = client.CPFId;
 
             client.PayamentItems.Add(payament);
@@ -125,6 +139,8 @@ namespace RollerPizza.Service.Use_Case
             {
                 payament.StatusOrder = StatusOrder.FINALIZADO;
             }
+
+            _payamentDao.UpdatePayament(payament);
             //DEPOIS, TROCAR ESSES IFS POR UM STRATEGY COM CHAIN OF RESPONSIBILITY
         }
         #endregion
@@ -132,16 +148,39 @@ namespace RollerPizza.Service.Use_Case
         #region"Remove"
         public void RemoveOneByCPF(string cpf)
         {
-            _payamentDao.RemoveOneByCPF(cpf);
+            Payament payament = _payamentDao.GetPayamentByCPF(cpf);
+            Client client = _clientDao.GetClientByCPF(cpf);
+
+            client.PayamentItems.Remove(payament);
+            _payamentDao.RemovePayament(payament);
+            _clientDao.Update(client);
+
         }
 
         public void RemoveAllPayamentsByCPF(string cpf)
         {
+            Client client = _clientDao.GetClientByCPF(cpf);
+            client.PayamentItems = null;
             _payamentDao.RemoveAllPayamentsByCPF(cpf);
+            _clientDao.Update(client);
         }
         #endregion
 
+        #region"Casos de uso da classe"
 
+        private Payament TransformDataPayament(PayamentAddViewModel payamentAddViewModel)
+        {
+            Payament payament = new();
+
+            payament.PayamentId = payamentAddViewModel.PayamentId;
+            payament.Pizzas = payamentAddViewModel.Pizzas;
+            payament.Drinks = payamentAddViewModel.Drinks;
+            payament.TotalPay = payamentAddViewModel.TotalPay;
+
+            return payament;
+        }
+
+        #endregion
 
 
     }

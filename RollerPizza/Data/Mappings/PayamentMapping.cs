@@ -14,6 +14,9 @@ namespace RollerPizza.Data.Mappings
                 .HasColumnType("varchar(11)")
                 .ValueGeneratedOnAdd();
 
+            builder.Property(t => t.TotalPay)
+                .HasColumnType("decimal(38,2)");
+
             builder.Property(d => d.DateTransaction)
                 .HasColumnType("datetime");
 
@@ -21,7 +24,7 @@ namespace RollerPizza.Data.Mappings
                 .HasColumnType("varchar(15)");
 
 
-            builder.HasMany(p => p.Pizzas) //trocar para withMany
+            builder.HasMany(p => p.Pizzas) 
                 .WithMany(p => p.Payament);
 
             builder.HasMany(d => d.Drinks)

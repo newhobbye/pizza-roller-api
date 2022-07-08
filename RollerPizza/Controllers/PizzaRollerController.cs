@@ -14,15 +14,19 @@ namespace RollerPizza.Controllers
         private DrinkHandler _drinkHandler;
         private ClientHandler _clientHandler;
         private AdressHandler _adressHandler;
+        private PayamentHandler _payamentHandler;
 
-        public PizzaRollerController(PizzaHandler pizzaHandler, DrinkHandler drinkHandler, ClientHandler clientHandler
-            , AdressHandler adressHandler)
+        public PizzaRollerController(PizzaHandler pizzaHandler, DrinkHandler drinkHandler,
+            ClientHandler clientHandler, AdressHandler adressHandler, PayamentHandler payamentHandler)
         {
             _pizzaHandler = pizzaHandler;
             _drinkHandler = drinkHandler;
             _clientHandler = clientHandler;
             _adressHandler = adressHandler;
+            _payamentHandler = payamentHandler;
         }
+
+
 
         #region "GET"
 
@@ -67,7 +71,41 @@ namespace RollerPizza.Controllers
             return Ok(adress);
         }
 
+        [HttpGet("payament/getAllPayaments")]
+        public IEnumerable<PayamentViewModel> GetAllPayaments()
+        {
+            return _payamentHandler.GetAllPayaments().ToList();
+        }
 
+        [HttpGet("payament/getAllPayamentsByCPF/{CPFId}")]
+        public IEnumerable<PayamentViewModel> GetAllPayamentsByCPF(string CPFId)
+        {
+            return _payamentHandler.GetPayamentByCPF(CPFId).ToList();
+        }
+
+        [HttpGet("payament/getAllStatusShoppingKart")]
+        public IEnumerable<PayamentViewModel> GetAllStatusShoppingKart()
+        {
+            return _payamentHandler.GetAllStatusShoppingKart().ToList();
+        }
+
+        [HttpGet("payament/getAllStatusPayament")]
+        public IEnumerable<PayamentViewModel> GetAllStatusPayament()
+        {
+            return _payamentHandler.GetAllStatusPayament().ToList();
+        }
+
+        [HttpGet("payament/getAllStatusPay")]
+        public IEnumerable<PayamentViewModel> GetAllStatusPay()
+        {
+            return _payamentHandler.GetAllStatusPay().ToList();
+        }
+
+        [HttpGet("payament/getAllStatusFinished")]
+        public IEnumerable<PayamentViewModel> GetAllStatusFinished()
+        {
+            return _payamentHandler.GetAllStatusFinished().ToList();
+        }
 
         #endregion
 

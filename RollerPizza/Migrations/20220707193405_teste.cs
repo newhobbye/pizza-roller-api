@@ -109,8 +109,9 @@ namespace RollerPizza.Migrations
                 {
                     PayamentId = table.Column<string>(type: "varchar(11)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CPFId = table.Column<string>(type: "varchar(11)", nullable: false)
+                    CPFId = table.Column<string>(type: "varchar(11)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    TotalPay = table.Column<decimal>(type: "decimal(38,2)", nullable: true),
                     DateTransaction = table.Column<DateTime>(type: "datetime", nullable: false),
                     StatusOrder = table.Column<string>(type: "varchar(15)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -122,8 +123,7 @@ namespace RollerPizza.Migrations
                         name: "FK_Payament_Client_CPFId",
                         column: x => x.CPFId,
                         principalTable: "Client",
-                        principalColumn: "CPFId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CPFId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

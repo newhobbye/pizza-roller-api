@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RollerPizza.Data;
 using RollerPizza.Data.Dao;
 using RollerPizza.Model;
+using RollerPizza.Service;
 using RollerPizza.Service.Use_Case;
 
 
@@ -40,6 +41,10 @@ builder.Services.AddScoped<PizzaHandler>();
 builder.Services.AddScoped<AdressHandler>();
 builder.Services.AddScoped<ClientHandler>();
 builder.Services.AddScoped<PayamentHandler>();
+#endregion
+
+#region"Dependencias de Serviços"
+builder.Services.AddScoped<ShoppingCartService>();
 #endregion
 
 var app = builder.Build();

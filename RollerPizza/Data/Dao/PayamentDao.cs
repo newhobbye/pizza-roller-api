@@ -12,6 +12,7 @@ namespace RollerPizza.Data.Dao
         }
 
 
+        #region"GETAcess"
 
         public IEnumerable<Payament> GetPayamentsByCPF(string cpf)
         {
@@ -20,7 +21,7 @@ namespace RollerPizza.Data.Dao
 
         public Payament GetPayamentByCPF(string cpf)
         {
-            return _dbContext.Payaments.Where( p => p.CPFId.Equals(cpf)).FirstOrDefault();
+            return _dbContext.Payaments.Where(p => p.CPFId.Equals(cpf)).FirstOrDefault();
         }
 
         public IEnumerable<Payament> GetAll()
@@ -48,11 +49,35 @@ namespace RollerPizza.Data.Dao
             return _dbContext.Payaments.Where(p => p.StatusOrder.ToString().Equals("FINALIZADO")).ToList();
         }
 
+        #endregion
 
+        #region"Update&Add"
+
+        public void AddPayament(Payament payament)
+        {
+            _dbContext.Payaments.Add(payament);
+            _dbContext.SaveChanges();
+        }
+
+        public void UpdatePayament(Payament payament)
+        {
+            _dbContext.Payaments.Update(payament);
+            _dbContext.SaveChanges();
+        }
+
+        #endregion
+
+        #region"Remove"
 
         public void RemoveOneByCPF(string cpf)
         {
             Payament payament = _dbContext.Payaments.FirstOrDefault(p => p.CPFId.Equals(cpf));
+            _dbContext.Payaments.Remove(payament);
+            _dbContext.SaveChanges();
+        }
+
+        public void RemovePayament(Payament payament)
+        {
             _dbContext.Payaments.Remove(payament);
             _dbContext.SaveChanges();
         }
@@ -69,10 +94,7 @@ namespace RollerPizza.Data.Dao
 
         }
 
-        public void AddPayament(Payament payament)
-        {
-            _dbContext.Payaments.Add(payament);
-            _dbContext.SaveChanges();
-        }
+        #endregion
+
     }
 }

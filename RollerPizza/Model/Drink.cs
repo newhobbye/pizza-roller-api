@@ -1,4 +1,6 @@
-﻿namespace RollerPizza.Model
+﻿using System.Text.Json.Serialization;
+
+namespace RollerPizza.Model
 {
     public class Drink : IItem
     {
@@ -8,6 +10,7 @@
         public string Description { get; set; }
         public int Quantity { get; set; }
         public double Value { get; set; }
+        [JsonIgnore]
         public virtual List<Payament> Payament { get; set; }
 
         public Drink()

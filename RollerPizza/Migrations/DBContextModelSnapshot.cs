@@ -147,7 +147,6 @@ namespace RollerPizza.Migrations
                         .HasColumnType("varchar(11)");
 
                     b.Property<string>("CPFId")
-                        .IsRequired()
                         .HasColumnType("varchar(11)");
 
                     b.Property<DateTime>("DateTransaction")
@@ -156,6 +155,9 @@ namespace RollerPizza.Migrations
                     b.Property<string>("StatusOrder")
                         .IsRequired()
                         .HasColumnType("varchar(15)");
+
+                    b.Property<decimal?>("TotalPay")
+                        .HasColumnType("decimal(38,2)");
 
                     b.HasKey("PayamentId");
 
@@ -232,9 +234,7 @@ namespace RollerPizza.Migrations
                 {
                     b.HasOne("RollerPizza.Model.Client", "Client")
                         .WithMany("PayamentItems")
-                        .HasForeignKey("CPFId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CPFId");
 
                     b.Navigation("Client");
                 });
