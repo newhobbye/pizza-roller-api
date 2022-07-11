@@ -54,11 +54,11 @@ namespace RollerPizza.Controllers
         [HttpPost("payament/PostPayamentShoppingCart")]
         public IActionResult PostPayamentShoppingCart([FromBody] PayamentAddViewModel payamentAddViewModel)
         {
-            Client client = _clientHandler.GetClientByCPF(payamentAddViewModel.PayamentId);
+            Client client = _clientHandler.GetClientByCPF(payamentAddViewModel.CPFId); 
 
             if (client == null || payamentAddViewModel == null)
             {
-                return NotFound("Pagamento ou cliente invalidos!");
+                return NotFound("Cliente invalido!");
             }
             _shoppingCartService.ProcessShoppingCard(client, payamentAddViewModel);
             return Ok("Pagamento adicionado.");

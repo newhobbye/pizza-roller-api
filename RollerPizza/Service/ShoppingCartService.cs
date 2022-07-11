@@ -13,9 +13,10 @@ namespace RollerPizza.Service
             _payamentHandler = payamentHandler;
         }
 
-        public void ProcessShoppingCard(Client client, PayamentAddViewModel payamentAddViewModel)
+
+        public void ProcessShoppingCard(Client client, PayamentAddViewModel payament)
         {
-            _payamentHandler.AddPayament(client, payamentAddViewModel);
+            _payamentHandler.AddPayament(client, payament);
 
         }
 

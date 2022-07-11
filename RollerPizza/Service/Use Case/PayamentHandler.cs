@@ -9,12 +9,17 @@ namespace RollerPizza.Service.Use_Case
     {
         PayamentDao _payamentDao;
         ClientDao _clientDao;
+        IItemDao<Pizza> _pizzaDao;
+        IItemDao<Drink> _drinkDao;
 
-        public PayamentHandler(PayamentDao payamentDao, ClientDao clientDao)
+        public PayamentHandler(PayamentDao payamentDao, ClientDao clientDao, IItemDao<Pizza> pizzaDao, IItemDao<Drink> drinkDao)
         {
             _payamentDao = payamentDao;
             _clientDao = clientDao;
+            _pizzaDao = pizzaDao;
+            _drinkDao = drinkDao;
         }
+
 
         #region"GET"
 
@@ -108,12 +113,14 @@ namespace RollerPizza.Service.Use_Case
         #region"Add&Update"
         public void AddPayament(Client client, PayamentAddViewModel payamentAddViewModel)
         {
-            Payament payament = TransformDataPayament(payamentAddViewModel);
-            payament.PayamentId = client.CPFId;
-            payament.CPFId = client.CPFId;
+
+            Payament payament = new ();
+            payament = TransformDataPayament(payamentAddViewModel);
+            payament.TotalPay = CalculateTotalPayament(payament);
+            payament.PayamentId = payament.CPFId;
 
             client.PayamentItems.Add(payament);
-            _clientDao.Add(client);
+            _clientDao.Update(client);
             _payamentDao.AddPayament(payament);
 
         }
@@ -172,7 +179,7 @@ namespace RollerPizza.Service.Use_Case
         {
             Payament payament = new();
 
-            payament.PayamentId = payamentAddViewModel.PayamentId;
+            payament.CPFId = payamentAddViewModel.CPFId;
             payament.Pizzas = payamentAddViewModel.Pizzas;
             payament.Drinks = payamentAddViewModel.Drinks;
             payament.TotalPay = payamentAddViewModel.TotalPay;
@@ -180,6 +187,31 @@ namespace RollerPizza.Service.Use_Case
             return payament;
         }
 
+        private double CalculateTotalPayament(Payament payament)
+        {
+            double sum = 0;
+            List<Pizza> pizzas = payament.Pizzas;
+            List<Drink> drinks = payament.Drinks;
+
+            sum += ArrayExtract(pizzas);
+            sum += ArrayExtract(drinks);
+
+            return sum;
+
+
+        }
+
+        private double ArrayExtract<T>(List<T> itens) where T : IItem
+        {
+            double total = 0;
+
+            foreach (T item in itens)
+            {
+                total += item.Value * item.Quantity;
+            }
+
+            return total;
+        }
         #endregion
 
 
