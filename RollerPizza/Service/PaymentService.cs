@@ -3,7 +3,7 @@ using RollerPizza.Model;
 
 namespace RollerPizza.Service
 {
-    public class PayamentService
+    public class PaymentService
     {
         
         //aqui vai ficar o metodo que vai receber o carrinho de compras e atribuir ao cliente
@@ -13,7 +13,7 @@ namespace RollerPizza.Service
             List<Pizza> pizzas = new ();
             List<Drink> drinks = new ();
 
-            foreach (var item in client.PayamentItems)
+            foreach (var item in client.PaymentItems)
             {
                 if ("CARRINHO".Equals(item.StatusOrder.ToString()))
                 {

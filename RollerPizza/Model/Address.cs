@@ -4,10 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace RollerPizza.Model
 {
-    public class Adress
+    public class Address
     {
         
-        public string? AdressId { get; set; }
+        public string? AddressId { get; set; }
         public string? CEP { get; set; }
         public string? City { get; set; }
         public string? District { get; set; }

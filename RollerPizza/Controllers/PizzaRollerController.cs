@@ -13,17 +13,17 @@ namespace RollerPizza.Controllers
         private PizzaHandler _pizzaHandler;
         private DrinkHandler _drinkHandler;
         private ClientHandler _clientHandler;
-        private AdressHandler _adressHandler;
-        private PayamentHandler _payamentHandler;
+        private AddressHandler _addressHandler;
+        private PaymentHandler _paymentHandler;
 
         public PizzaRollerController(PizzaHandler pizzaHandler, DrinkHandler drinkHandler,
-            ClientHandler clientHandler, AdressHandler adressHandler, PayamentHandler payamentHandler)
+            ClientHandler clientHandler, AddressHandler adressHandler, PaymentHandler payamentHandler)
         {
             _pizzaHandler = pizzaHandler;
             _drinkHandler = drinkHandler;
             _clientHandler = clientHandler;
-            _adressHandler = adressHandler;
-            _payamentHandler = payamentHandler;
+            _addressHandler = adressHandler;
+            _paymentHandler = payamentHandler;
         }
 
 
@@ -44,24 +44,24 @@ namespace RollerPizza.Controllers
             return _drinkHandler.Search().ToList();
         }
 
-        [HttpGet("clientNoAdress")]
-        public IEnumerable<ClientViewModel> GetClientNoAdress()
+        [HttpGet("clientNoAddress")]
+        public IEnumerable<ClientViewModel> GetClientNoAddress()
         {
-            return _clientHandler.GetClientNoAdress().ToList();
+            return _clientHandler.GetClientNoAddress().ToList();
         }
 
         [HttpGet("clients")]
-        public IEnumerable<ClientViewModelWithAdress> GetClients()
+        public IEnumerable<ClientViewModelWithAddress> GetClients()
         {
-            return _clientHandler.GetClientsWithAdress().ToList();
+            return _clientHandler.GetClientsWithAddress().ToList();
         }
 
         
 
-        [HttpGet("adress/{CPFId}")]
-        public IActionResult GetAdress(string CPFId)
+        [HttpGet("address/{CPFId}")]
+        public IActionResult GetAddress(string CPFId)
         {
-            AdressViewModel adress = _adressHandler.GetAdressByCPF(CPFId);
+            AddressViewModel adress = _addressHandler.GetAddressByCPF(CPFId);
 
             if (adress.ClientId == null)
             {
@@ -71,40 +71,40 @@ namespace RollerPizza.Controllers
             return Ok(adress);
         }
 
-        [HttpGet("payament/getAllPayaments")]
-        public IEnumerable<PayamentViewModel> GetAllPayaments()
+        [HttpGet("payment/getAllPayments")]
+        public IEnumerable<PaymentViewModel> GetAllPayments()
         {
-            return _payamentHandler.GetAllPayaments().ToList();
+            return _paymentHandler.GetAllPayments().ToList();
         }
 
-        [HttpGet("payament/getAllPayamentsByCPF/{CPFId}")]
-        public IEnumerable<PayamentViewModel> GetAllPayamentsByCPF(string CPFId)
+        [HttpGet("payment/getAllPaymentsByCPF/{CPFId}")]
+        public IEnumerable<PaymentViewModel> GetAllPaymentsByCPF(string CPFId)
         {
-            return _payamentHandler.GetPayamentByCPF(CPFId).ToList();
+            return _paymentHandler.GetPaymentByCPF(CPFId).ToList();
         }
 
-        [HttpGet("payament/getAllStatusShoppingKart")]
-        public IEnumerable<PayamentViewModel> GetAllStatusShoppingKart()
+        [HttpGet("payment/getAllStatusShoppingKart")]
+        public IEnumerable<PaymentViewModel> GetAllStatusShoppingKart()
         {
-            return _payamentHandler.GetAllStatusShoppingKart().ToList();
+            return _paymentHandler.GetAllStatusShoppingKart().ToList();
         }
 
-        [HttpGet("payament/getAllStatusPayament")]
-        public IEnumerable<PayamentViewModel> GetAllStatusPayament()
+        [HttpGet("payment/getAllStatusPayament")]
+        public IEnumerable<PaymentViewModel> GetAllStatusPayment()
         {
-            return _payamentHandler.GetAllStatusPayament().ToList();
+            return _paymentHandler.GetAllStatusPayment().ToList();
         }
 
-        [HttpGet("payament/getAllStatusPay")]
-        public IEnumerable<PayamentViewModel> GetAllStatusPay()
+        [HttpGet("payment/getAllStatusPay")]
+        public IEnumerable<PaymentViewModel> GetAllStatusPay()
         {
-            return _payamentHandler.GetAllStatusPay().ToList();
+            return _paymentHandler.GetAllStatusPay().ToList();
         }
 
-        [HttpGet("payament/getAllStatusFinished")]
-        public IEnumerable<PayamentViewModel> GetAllStatusFinished()
+        [HttpGet("payment/getAllStatusFinished")]
+        public IEnumerable<PaymentViewModel> GetAllStatusFinished()
         {
-            return _payamentHandler.GetAllStatusFinished().ToList();
+            return _paymentHandler.GetAllStatusFinished().ToList();
         }
 
         #endregion
@@ -150,18 +150,18 @@ namespace RollerPizza.Controllers
             return Ok(client);
         }
 
-        [HttpPost("addAdress")]
-        public IActionResult AddAdress([FromBody] AdressAddViewModel adress)
+        [HttpPost("addAddress")]
+        public IActionResult AddAddress([FromBody] AddressAddViewModel address)
         {
-            Client cli = _clientHandler.GetClientByCPF(adress.ClientId);
+            Client cli = _clientHandler.GetClientByCPF(address.ClientId);
 
-            if (adress == null || cli == null)
+            if (address == null || cli == null)
             {
                 return BadRequest("Objeto nulo ou fora do padrão");
             }
 
-            _adressHandler.Add(adress); 
-            return Ok(adress);
+            _addressHandler.Add(address); 
+            return Ok(address);
         }
 
         #endregion
@@ -197,17 +197,17 @@ namespace RollerPizza.Controllers
             return Ok("Bebida removida");
         }
 
-        [HttpDelete("deleteAdress/{CPFId}")]
-        public IActionResult DeleteAdressById(string CPFId)
+        [HttpDelete("deleteAddress/{CPFId}")]
+        public IActionResult DeleteAddressById(string CPFId)
         {
-            AdressViewModel verification = _adressHandler.GetAdressByCPF(CPFId);
+            AddressViewModel verification = _addressHandler.GetAddressByCPF(CPFId);
 
             if(verification == null)
             {
                 return NotFound("Endereço não encontrado!");
             }
 
-            _adressHandler.Remove(CPFId);
+            _addressHandler.Remove(CPFId);
             return Ok("Removido!");
 
         }
@@ -231,15 +231,15 @@ namespace RollerPizza.Controllers
         #region "PUT"
 
 
-        [HttpPut("updateClientNoAdressNoPassword")]
-        public IActionResult UpdateClientNoAdressNoPassword([FromBody] ClientViewModel client)
+        [HttpPut("updateClientNoAddressNoPassword")]
+        public IActionResult UpdateClientNoAddressNoPassword([FromBody] ClientViewModel client)
         {
             if(client.CPFId == null)
             {
                 return NotFound("Cliente não encontrado!");
             }
 
-            _clientHandler.UpdateClientNoAdressNoPassword(client);
+            _clientHandler.UpdateClientNoAddressNoPassword(client);
 
             return Ok(client);
         }
@@ -257,19 +257,19 @@ namespace RollerPizza.Controllers
             return Ok("Senha alterada!");
         }
 
-        [HttpPut("updateAdress")]
-        public IActionResult UpdateAdress([FromBody] AdressAddViewModel adress)
+        [HttpPut("updateAddress")]
+        public IActionResult UpdateAddress([FromBody] AddressAddViewModel address)
         {
-            AdressViewModel verification = _adressHandler.GetAdressByCPF(adress.ClientId);
+            AddressViewModel verification = _addressHandler.GetAddressByCPF(address.ClientId);
 
             if(verification == null)
             {
                 return NotFound("Endereço não encontrado.");
             }
 
-            _adressHandler.Update(adress);
+            _addressHandler.Update(address);
 
-            return Ok(adress);
+            return Ok(address);
         }
 
 

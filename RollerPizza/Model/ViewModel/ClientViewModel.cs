@@ -11,13 +11,13 @@
 
     }
 
-    public class ClientViewModelWithAdress
+    public class ClientViewModelWithAddress
     {
         public string? CPFId { get; set; }
         public string? Name { get; set; }
         public string? NickName { get; set; }
         public string? Email { get; set; }
-        public virtual Adress? Adress { get; set; }
+        public virtual Address? Adress { get; set; }
     }
 
     public class ClientViewModelWithPayament
@@ -26,7 +26,7 @@
         public string? Name { get; set; }
         public string? NickName { get; set; }
         public string? Email { get; set; }
-        public virtual List<Payament>? PayamentItems { get; set; }
+        public virtual List<Payment>? PaymentItems { get; set; }
     }
 
     #endregion

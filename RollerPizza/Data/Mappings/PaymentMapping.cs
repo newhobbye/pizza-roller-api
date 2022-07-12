@@ -4,13 +4,13 @@ using RollerPizza.Model;
 
 namespace RollerPizza.Data.Mappings
 {
-    public class PayamentMapping : IEntityTypeConfiguration<Payament>
+    public class PaymentMapping : IEntityTypeConfiguration<Payment>
     {
-        public void Configure(EntityTypeBuilder<Payament> builder)
+        public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            builder.ToTable("Payament");
-            builder.HasKey(k => k.PayamentId);
-            builder.Property(k => k.PayamentId)
+            builder.ToTable("Payment");
+            builder.HasKey(k => k.PaymentId);
+            builder.Property(k => k.PaymentId)
                 .HasColumnType("varchar(11)")
                 .ValueGeneratedOnAdd();
 
@@ -25,13 +25,13 @@ namespace RollerPizza.Data.Mappings
 
 
             builder.HasMany(p => p.Pizzas) 
-                .WithMany(p => p.Payament);
+                .WithMany(p => p.Payment);
 
             builder.HasMany(d => d.Drinks)
-                .WithMany(d => d.Payament);
+                .WithMany(d => d.Payment);
 
             builder.HasOne(pagamento => pagamento.Client)
-                .WithMany(cliente => cliente.PayamentItems)
+                .WithMany(cliente => cliente.PaymentItems)
                 .HasForeignKey(pagamento => pagamento.CPFId);
                 
         }

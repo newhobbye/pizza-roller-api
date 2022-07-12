@@ -16,15 +16,15 @@ namespace RollerPizza.Data
             modelBuilder.ApplyConfiguration(new PizzaMapping());
             modelBuilder.ApplyConfiguration(new DrinkMapping());
             modelBuilder.ApplyConfiguration(new ClientMapping());
-            modelBuilder.ApplyConfiguration(new AdressMapping());
-            modelBuilder.ApplyConfiguration(new PayamentMapping());
+            modelBuilder.ApplyConfiguration(new AddressMapping());
+            modelBuilder.ApplyConfiguration(new PaymentMapping());
         }
 
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Drink> Drinks { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Adress> Adresses { get; set; }
-        public DbSet<Payament> Payaments { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
     }
 
@@ -33,7 +33,7 @@ namespace RollerPizza.Data
         public DbSet<Pizza> Pizzas { get; set; }
         public DbSet<Drink> Drinks { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Adress> Adresses { get; set; }
-        public DbSet<Payament> Payaments { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Payment> Payments { get; set; }
     }
 }

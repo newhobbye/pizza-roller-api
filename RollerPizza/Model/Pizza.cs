@@ -11,11 +11,11 @@ namespace RollerPizza.Model
         public int Quantity { get; set; }
         public double Value { get; set; }
         [JsonIgnore]
-        public virtual List<Payament> Payament { get; set; }
+        public virtual List<Payment> Payment { get; set; }
 
         public Pizza()
         {
-            Payament = new List<Payament>();
+            Payment = new List<Payment>();
         }
 
     }

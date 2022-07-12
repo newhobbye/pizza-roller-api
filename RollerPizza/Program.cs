@@ -31,20 +31,20 @@ builder.Services.AddScoped<DBContext>();
 builder.Services.AddScoped<IItemDao<Pizza>, PizzaDao>();
 builder.Services.AddScoped<IItemDao<Drink>, DrinkDao>();
 builder.Services.AddScoped<ClientDao>();
-builder.Services.AddScoped<AdressDao>();
-builder.Services.AddScoped<PayamentDao>();
+builder.Services.AddScoped<AddressDao>();
+builder.Services.AddScoped<PaymentDao>();
 #endregion
 
 #region"Dependencias de Manipuladores de dados"
 builder.Services.AddScoped<DrinkHandler>();
 builder.Services.AddScoped<PizzaHandler>();
-builder.Services.AddScoped<AdressHandler>();
+builder.Services.AddScoped<AddressHandler>();
 builder.Services.AddScoped<ClientHandler>();
-builder.Services.AddScoped<PayamentHandler>();
+builder.Services.AddScoped<PaymentHandler>();
 #endregion
 
 #region"Dependencias de Serviços"
-builder.Services.AddScoped<ShoppingCartService>();
+builder.Services.AddScoped<ShoppingKartService>();
 #endregion
 
 var app = builder.Build();

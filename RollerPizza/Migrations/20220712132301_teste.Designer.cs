@@ -11,7 +11,7 @@ using RollerPizza.Data;
 namespace RollerPizza.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220707193405_teste")]
+    [Migration("20220712132301_teste")]
     partial class teste
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,39 +21,39 @@ namespace RollerPizza.Migrations
                 .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("DrinkPayament", b =>
+            modelBuilder.Entity("DrinkPayment", b =>
                 {
                     b.Property<int>("DrinksId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PayamentId")
+                    b.Property<string>("PaymentId")
                         .HasColumnType("varchar(11)");
 
-                    b.HasKey("DrinksId", "PayamentId");
+                    b.HasKey("DrinksId", "PaymentId");
 
-                    b.HasIndex("PayamentId");
+                    b.HasIndex("PaymentId");
 
-                    b.ToTable("DrinkPayament");
+                    b.ToTable("DrinkPayment");
                 });
 
-            modelBuilder.Entity("PayamentPizza", b =>
+            modelBuilder.Entity("PaymentPizza", b =>
                 {
-                    b.Property<string>("PayamentId")
+                    b.Property<string>("PaymentId")
                         .HasColumnType("varchar(11)");
 
                     b.Property<int>("PizzasId")
                         .HasColumnType("int");
 
-                    b.HasKey("PayamentId", "PizzasId");
+                    b.HasKey("PaymentId", "PizzasId");
 
                     b.HasIndex("PizzasId");
 
-                    b.ToTable("PayamentPizza");
+                    b.ToTable("PaymentPizza");
                 });
 
-            modelBuilder.Entity("RollerPizza.Model.Adress", b =>
+            modelBuilder.Entity("RollerPizza.Model.Address", b =>
                 {
-                    b.Property<string>("AdressId")
+                    b.Property<string>("AddressId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
@@ -82,12 +82,12 @@ namespace RollerPizza.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(25)");
 
-                    b.HasKey("AdressId");
+                    b.HasKey("AddressId");
 
                     b.HasIndex("ClientId")
                         .IsUnique();
 
-                    b.ToTable("Adress", (string)null);
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("RollerPizza.Model.Client", b =>
@@ -142,9 +142,9 @@ namespace RollerPizza.Migrations
                     b.ToTable("Drink", (string)null);
                 });
 
-            modelBuilder.Entity("RollerPizza.Model.Payament", b =>
+            modelBuilder.Entity("RollerPizza.Model.Payment", b =>
                 {
-                    b.Property<string>("PayamentId")
+                    b.Property<string>("PaymentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(11)");
 
@@ -161,11 +161,11 @@ namespace RollerPizza.Migrations
                     b.Property<decimal?>("TotalPay")
                         .HasColumnType("decimal(38,2)");
 
-                    b.HasKey("PayamentId");
+                    b.HasKey("PaymentId");
 
                     b.HasIndex("CPFId");
 
-                    b.ToTable("Payament", (string)null);
+                    b.ToTable("Payment", (string)null);
                 });
 
             modelBuilder.Entity("RollerPizza.Model.Pizza", b =>
@@ -193,7 +193,7 @@ namespace RollerPizza.Migrations
                     b.ToTable("Pizza", (string)null);
                 });
 
-            modelBuilder.Entity("DrinkPayament", b =>
+            modelBuilder.Entity("DrinkPayment", b =>
                 {
                     b.HasOne("RollerPizza.Model.Drink", null)
                         .WithMany()
@@ -201,18 +201,18 @@ namespace RollerPizza.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RollerPizza.Model.Payament", null)
+                    b.HasOne("RollerPizza.Model.Payment", null)
                         .WithMany()
-                        .HasForeignKey("PayamentId")
+                        .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PayamentPizza", b =>
+            modelBuilder.Entity("PaymentPizza", b =>
                 {
-                    b.HasOne("RollerPizza.Model.Payament", null)
+                    b.HasOne("RollerPizza.Model.Payment", null)
                         .WithMany()
-                        .HasForeignKey("PayamentId")
+                        .HasForeignKey("PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -223,19 +223,19 @@ namespace RollerPizza.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RollerPizza.Model.Adress", b =>
+            modelBuilder.Entity("RollerPizza.Model.Address", b =>
                 {
                     b.HasOne("RollerPizza.Model.Client", "Client")
                         .WithOne("Adress")
-                        .HasForeignKey("RollerPizza.Model.Adress", "ClientId");
+                        .HasForeignKey("RollerPizza.Model.Address", "ClientId");
 
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("RollerPizza.Model.Payament", b =>
+            modelBuilder.Entity("RollerPizza.Model.Payment", b =>
                 {
                     b.HasOne("RollerPizza.Model.Client", "Client")
-                        .WithMany("PayamentItems")
+                        .WithMany("PaymentItems")
                         .HasForeignKey("CPFId");
 
                     b.Navigation("Client");
@@ -245,7 +245,7 @@ namespace RollerPizza.Migrations
                 {
                     b.Navigation("Adress");
 
-                    b.Navigation("PayamentItems");
+                    b.Navigation("PaymentItems");
                 });
 #pragma warning restore 612, 618
         }

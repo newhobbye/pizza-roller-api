@@ -73,10 +73,10 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Adress",
+                name: "Address",
                 columns: table => new
                 {
-                    AdressId = table.Column<string>(type: "varchar(255)", nullable: false)
+                    AddressId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CEP = table.Column<string>(type: "varchar(8)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -94,9 +94,9 @@ namespace RollerPizza.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Adress", x => x.AdressId);
+                    table.PrimaryKey("PK_Address", x => x.AddressId);
                     table.ForeignKey(
-                        name: "FK_Adress_Client_ClientId",
+                        name: "FK_Address_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
                         principalColumn: "CPFId");
@@ -104,10 +104,10 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Payament",
+                name: "Payment",
                 columns: table => new
                 {
-                    PayamentId = table.Column<string>(type: "varchar(11)", nullable: false)
+                    PaymentId = table.Column<string>(type: "varchar(11)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CPFId = table.Column<string>(type: "varchar(11)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -118,9 +118,9 @@ namespace RollerPizza.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payament", x => x.PayamentId);
+                    table.PrimaryKey("PK_Payment", x => x.PaymentId);
                     table.ForeignKey(
-                        name: "FK_Payament_Client_CPFId",
+                        name: "FK_Payment_Client_CPFId",
                         column: x => x.CPFId,
                         principalTable: "Client",
                         principalColumn: "CPFId");
@@ -128,50 +128,50 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DrinkPayament",
+                name: "DrinkPayment",
                 columns: table => new
                 {
                     DrinksId = table.Column<int>(type: "int", nullable: false),
-                    PayamentId = table.Column<string>(type: "varchar(11)", nullable: false)
+                    PaymentId = table.Column<string>(type: "varchar(11)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DrinkPayament", x => new { x.DrinksId, x.PayamentId });
+                    table.PrimaryKey("PK_DrinkPayment", x => new { x.DrinksId, x.PaymentId });
                     table.ForeignKey(
-                        name: "FK_DrinkPayament_Drink_DrinksId",
+                        name: "FK_DrinkPayment_Drink_DrinksId",
                         column: x => x.DrinksId,
                         principalTable: "Drink",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DrinkPayament_Payament_PayamentId",
-                        column: x => x.PayamentId,
-                        principalTable: "Payament",
-                        principalColumn: "PayamentId",
+                        name: "FK_DrinkPayment_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
+                        principalColumn: "PaymentId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "PayamentPizza",
+                name: "PaymentPizza",
                 columns: table => new
                 {
-                    PayamentId = table.Column<string>(type: "varchar(11)", nullable: false)
+                    PaymentId = table.Column<string>(type: "varchar(11)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PizzasId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayamentPizza", x => new { x.PayamentId, x.PizzasId });
+                    table.PrimaryKey("PK_PaymentPizza", x => new { x.PaymentId, x.PizzasId });
                     table.ForeignKey(
-                        name: "FK_PayamentPizza_Payament_PayamentId",
-                        column: x => x.PayamentId,
-                        principalTable: "Payament",
-                        principalColumn: "PayamentId",
+                        name: "FK_PaymentPizza_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
+                        principalColumn: "PaymentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PayamentPizza_Pizza_PizzasId",
+                        name: "FK_PaymentPizza_Pizza_PizzasId",
                         column: x => x.PizzasId,
                         principalTable: "Pizza",
                         principalColumn: "Id",
@@ -180,43 +180,43 @@ namespace RollerPizza.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Adress_ClientId",
-                table: "Adress",
+                name: "IX_Address_ClientId",
+                table: "Address",
                 column: "ClientId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DrinkPayament_PayamentId",
-                table: "DrinkPayament",
-                column: "PayamentId");
+                name: "IX_DrinkPayment_PaymentId",
+                table: "DrinkPayment",
+                column: "PaymentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payament_CPFId",
-                table: "Payament",
+                name: "IX_Payment_CPFId",
+                table: "Payment",
                 column: "CPFId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PayamentPizza_PizzasId",
-                table: "PayamentPizza",
+                name: "IX_PaymentPizza_PizzasId",
+                table: "PaymentPizza",
                 column: "PizzasId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Adress");
+                name: "Address");
 
             migrationBuilder.DropTable(
-                name: "DrinkPayament");
+                name: "DrinkPayment");
 
             migrationBuilder.DropTable(
-                name: "PayamentPizza");
+                name: "PaymentPizza");
 
             migrationBuilder.DropTable(
                 name: "Drink");
 
             migrationBuilder.DropTable(
-                name: "Payament");
+                name: "Payment");
 
             migrationBuilder.DropTable(
                 name: "Pizza");

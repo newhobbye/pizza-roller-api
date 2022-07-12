@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RollerPizza.Model;
 using RollerPizza.Model.ViewModel;
 using RollerPizza.Service;
@@ -12,16 +11,16 @@ namespace RollerPizza.Controllers
     public class ProcessPayamentController : Controller
     {
 
-        private PayamentHandler _payamentHandler;
+        private PaymentHandler _paymentHandler;
         private ClientHandler _clientHandler;
-        private ShoppingCartService _shoppingCartService;
+        private ShoppingKartService _shoppingKartService;
 
-        public ProcessPayamentController(PayamentHandler payamentHandler, ClientHandler clientHandler,
-            ShoppingCartService shoppingCartService)
+        public ProcessPayamentController(PaymentHandler payamentHandler, ClientHandler clientHandler,
+            ShoppingKartService shoppingCartService)
         {
-            _payamentHandler = payamentHandler;
+            _paymentHandler = payamentHandler;
             _clientHandler = clientHandler;
-            _shoppingCartService = shoppingCartService;
+            _shoppingKartService = shoppingCartService;
         }
 
 
@@ -29,16 +28,16 @@ namespace RollerPizza.Controllers
 
         #region"GET"
 
-        [HttpGet("payament/getAllPayamentsByCPF/{CPFId}")]
-        public IEnumerable<PayamentViewModel> GetAllPayamentsByCPF(string CPFId)
+        [HttpGet("payment/getAllPaymentsByCPF/{CPFId}")]
+        public IEnumerable<PaymentViewModel> GetAllPaymentsByCPF(string CPFId)
         {
-            return _payamentHandler.GetPayamentByCPF(CPFId).ToList();
+            return _paymentHandler.GetPaymentByCPF(CPFId).ToList();
         }
 
-        [HttpGet("payament/getOnePayamentByCPF/{CPFId}")]
-        public IActionResult GetOnePayamentByCPF(string CPFId)
+        [HttpGet("payment/getOnePaymentByCPF/{CPFId}")]
+        public IActionResult GetOnePaymentByCPF(string CPFId)
         {
-            PayamentViewModel model = _payamentHandler.GetOnePayamentByCPF(CPFId);
+            PaymentViewModel model = _paymentHandler.GetOnePayamentByCPF(CPFId);
             if(model == null)
             {
                 return NotFound("Não existe pagamentos vinculados a este CPF!");
@@ -51,16 +50,16 @@ namespace RollerPizza.Controllers
 
         #region"POST"
 
-        [HttpPost("payament/PostPayamentShoppingCart")]
-        public IActionResult PostPayamentShoppingCart([FromBody] PayamentAddViewModel payamentAddViewModel)
+        [HttpPost("payment/PostPaymentShoppingCart")]
+        public IActionResult PostPaymentShoppingCart([FromBody] PaymentAddViewModel paymentAddViewModel)
         {
-            Client client = _clientHandler.GetClientByCPF(payamentAddViewModel.CPFId); 
+            Client client = _clientHandler.GetClientByCPF(paymentAddViewModel.CPFId); 
 
-            if (client == null || payamentAddViewModel == null)
+            if (client == null || paymentAddViewModel == null)
             {
                 return NotFound("Cliente invalido!");
             }
-            _shoppingCartService.ProcessShoppingCard(client, payamentAddViewModel);
+            _shoppingKartService.ProcessShoppingCard(client, paymentAddViewModel);
             return Ok("Pagamento adicionado.");
         }
 
@@ -75,7 +74,7 @@ namespace RollerPizza.Controllers
             {
                 return NotFound("CPF ou numero de status incorreto!");
             }
-            _payamentHandler.UpdateStatusPayament(CPFId, numberStatus);
+            _paymentHandler.UpdateStatusPayment(CPFId, numberStatus);
 
             return Ok("Status Alterado!");
         }
@@ -83,16 +82,16 @@ namespace RollerPizza.Controllers
         #endregion
 
         #region"DELETE"
-        [HttpDelete("payament/deletePayamentByCPFOnShoppingKart/{cpf}")]
-        public IActionResult DeletePayamentByCPFOnShoppingKart(string cpf)
+        [HttpDelete("payment/deletePaymentByCPFOnShoppingKart/{cpf}")]
+        public IActionResult DeletePaymentByCPFOnShoppingKart(string cpf)
         {
-            PayamentViewModel pay = _payamentHandler.GetOnePayamentByCPF(cpf);
+            PaymentViewModel pay = _paymentHandler.GetOnePayamentByCPF(cpf);
             if(pay == null)
             {
                 return NotFound("Pagamento não encontrado!");
             }
 
-            _payamentHandler.RemoveOneByCPF(cpf);
+            _paymentHandler.RemoveOneByCPF(cpf);
             return Ok("Pagamento removido!");
         }
         #endregion

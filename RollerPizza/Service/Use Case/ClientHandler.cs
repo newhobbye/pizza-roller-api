@@ -7,27 +7,27 @@ namespace RollerPizza.Service.Use_Case
     public class ClientHandler
     {
         private ClientDao _clientDao;
-        private AdressDao _adressDao;
-        private PayamentDao _payamentDao;
+        private AddressDao _addressDao;
+        private PaymentDao _paymentDao;
 
-        public ClientHandler(ClientDao clientDao, AdressDao adressDao, PayamentDao payamentDao)
+        public ClientHandler(ClientDao clientDao, AddressDao addressDao, PaymentDao paymentDao)
         {
             _clientDao = clientDao;
-            _adressDao = adressDao;
-            _payamentDao = payamentDao;
+            _addressDao = addressDao;
+            _paymentDao = paymentDao;
         }
 
 
         #region "GET"
 
-        public IEnumerable<ClientViewModelWithAdress> GetClientsWithAdress()
+        public IEnumerable<ClientViewModelWithAddress> GetClientsWithAddress()
         {
             List<Client> clients = _clientDao.GetClients().ToList();
-            List<ClientViewModelWithAdress> clientsViewModel = new();
+            List<ClientViewModelWithAddress> clientsViewModel = new();
 
             foreach (Client client in clients)
             {
-                ClientViewModelWithAdress cli = new();
+                ClientViewModelWithAddress cli = new();
 
                 cli.CPFId = client.CPFId;
                 cli.Name = client.Name;
@@ -41,7 +41,7 @@ namespace RollerPizza.Service.Use_Case
             return clientsViewModel;
         }
 
-        public IEnumerable<ClientViewModel> GetClientNoAdress()
+        public IEnumerable<ClientViewModel> GetClientNoAddress()
         {
             List<Client> client = _clientDao.GetClients().ToList();
             List<ClientViewModel> clientModel = new();
@@ -62,7 +62,7 @@ namespace RollerPizza.Service.Use_Case
 
         
 
-        public IEnumerable<ClientViewModelWithPayament> GetClientWithPayament()
+        public IEnumerable<ClientViewModelWithPayament> GetClientWithPayment()
         {
             List<Client> client = _clientDao.GetClients().ToList();
             List<ClientViewModelWithPayament> clientModel = new();
@@ -75,7 +75,7 @@ namespace RollerPizza.Service.Use_Case
                 model.Name = cli.Name;
                 model.NickName = cli.NickName;
                 model.Email = cli.Email;
-                model.PayamentItems = cli.PayamentItems;
+                model.PaymentItems = cli.PaymentItems;
 
                 clientModel.Add(model);
             }
@@ -112,7 +112,7 @@ namespace RollerPizza.Service.Use_Case
               
         }
 
-        public void UpdateClientNoAdressNoPassword(ClientViewModel clientModel)
+        public void UpdateClientNoAddressNoPassword(ClientViewModel clientModel)
         {
             Client client = _clientDao.GetClientByCPF(clientModel.CPFId);
 
@@ -140,20 +140,20 @@ namespace RollerPizza.Service.Use_Case
         public void RemoveClient(string cpf)
         {
             Client client = _clientDao.GetClientByCPF(cpf);
-            Adress adress = _adressDao.GetAdressByCPF(cpf);
-            _adressDao.Remove(adress);
+            Address adress = _addressDao.GetAddressByCPF(cpf);
+            _addressDao.Remove(adress);
             _clientDao.Remove(client);
             
             
         }
 
-        public void RemoveClientAndPayaments(string cpf)
+        public void RemoveClientAndPayments(string cpf)
         {
             Client client = _clientDao.GetClientByCPF(cpf);
-            Adress adress = _adressDao.GetAdressByCPF(cpf);
+            Address address = _addressDao.GetAddressByCPF(cpf);
             _clientDao.Remove(client);
-            _adressDao.Remove(adress);
-            _payamentDao.RemoveAllPayamentsByCPF(cpf);
+            _addressDao.Remove(address);
+            _paymentDao.RemoveAllPaymentsByCPF(cpf);
 
 
         }

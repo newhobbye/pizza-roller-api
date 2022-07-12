@@ -4,14 +4,14 @@ using RollerPizza.Model;
 
 namespace RollerPizza.Data.Mappings
 {
-    public class AdressMapping : IEntityTypeConfiguration<Adress>
+    public class AddressMapping : IEntityTypeConfiguration<Address>
     {
-        public void Configure(EntityTypeBuilder<Adress> builder)
+        public void Configure(EntityTypeBuilder<Address> builder)
         {
-            builder.ToTable("Adress");
+            builder.ToTable("Address");
 
-            builder.HasKey(k => k.AdressId);
-            builder.Property(k => k.AdressId)
+            builder.HasKey(k => k.AddressId);
+            builder.Property(k => k.AddressId)
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 

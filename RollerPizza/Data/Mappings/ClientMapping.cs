@@ -35,7 +35,7 @@ namespace RollerPizza.Data.Mappings
 
             builder.HasOne(client => client.Adress)
                 .WithOne(adress => adress.Client)
-                .HasForeignKey<Adress>(adress => adress.ClientId);
+                .HasForeignKey<Address>(adress => adress.ClientId);
             //aqui não só estou definindo a relação, como tambem estou definindo que para um endereço
             //existir, um cliente precisa existir antes (Objeto dependente).
 

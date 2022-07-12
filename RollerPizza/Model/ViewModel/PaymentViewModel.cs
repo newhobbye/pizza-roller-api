@@ -2,9 +2,9 @@
 
 namespace RollerPizza.Model.ViewModel
 {
-    public class PayamentViewModel
+    public class PaymentViewModel
     {
-        public string? PayamentId { get; set; }
+        public string? PaymentId { get; set; }
         public virtual List<Pizza>? Pizzas { get; set; }
         public virtual List<Drink>? Drinks { get; set; }
         public string? CPFId { get; set; }
@@ -13,7 +13,7 @@ namespace RollerPizza.Model.ViewModel
         public virtual StatusOrder? StatusOrder { get; set; }
     }
 
-    public class PayamentAddViewModel
+    public class PaymentAddViewModel
     {
         public string? CPFId { get; set; }
         public virtual List<Pizza>? Pizzas { get; set; }
@@ -22,7 +22,7 @@ namespace RollerPizza.Model.ViewModel
         
 
 
-        public PayamentAddViewModel()
+        public PaymentAddViewModel()
         {
             Pizzas = new ();
             Drinks = new ();

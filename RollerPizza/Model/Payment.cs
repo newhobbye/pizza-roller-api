@@ -4,10 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace RollerPizza.Model
 {
-    public class Payament
+    public class Payment
     {
         
-        public string? PayamentId { get; set; }
+        public string? PaymentId { get; set; }
         public virtual List<Pizza> Pizzas { get; set; }
         public virtual List<Drink> Drinks { get; set; }
         public string? CPFId { get; set; }
@@ -17,7 +17,7 @@ namespace RollerPizza.Model
         public DateTime DateTransaction { get; set; }
         public virtual StatusOrder StatusOrder { get; set; }
 
-        public Payament()
+        public Payment()
         {
             Pizzas = new List<Pizza>();
             Drinks = new List<Drink>();
