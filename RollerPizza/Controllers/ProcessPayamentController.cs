@@ -83,7 +83,18 @@ namespace RollerPizza.Controllers
         #endregion
 
         #region"DELETE"
+        [HttpDelete("payament/deletePayamentByCPFOnShoppingKart/{cpf}")]
+        public IActionResult DeletePayamentByCPFOnShoppingKart(string cpf)
+        {
+            PayamentViewModel pay = _payamentHandler.GetOnePayamentByCPF(cpf);
+            if(pay == null)
+            {
+                return NotFound("Pagamento não encontrado!");
+            }
 
+            _payamentHandler.RemoveOneByCPF(cpf);
+            return Ok("Pagamento removido!");
+        }
         #endregion
 
     }
