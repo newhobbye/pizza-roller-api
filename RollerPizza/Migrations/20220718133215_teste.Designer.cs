@@ -11,7 +11,7 @@ using RollerPizza.Data;
 namespace RollerPizza.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220712132301_teste")]
+    [Migration("20220718133215_teste")]
     partial class teste
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,9 +131,6 @@ namespace RollerPizza.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<sbyte>("Quantity")
-                        .HasColumnType("tinyint(100)");
-
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(38,2)");
 
@@ -153,6 +150,9 @@ namespace RollerPizza.Migrations
 
                     b.Property<DateTime>("DateTransaction")
                         .HasColumnType("datetime");
+
+                    b.Property<int>("QuantityItems")
+                        .HasColumnType("int");
 
                     b.Property<string>("StatusOrder")
                         .IsRequired()
@@ -181,9 +181,6 @@ namespace RollerPizza.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
-
-                    b.Property<sbyte>("Quantity")
-                        .HasColumnType("tinyint(100)");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(38,2)");
@@ -227,7 +224,8 @@ namespace RollerPizza.Migrations
                 {
                     b.HasOne("RollerPizza.Model.Client", "Client")
                         .WithOne("Adress")
-                        .HasForeignKey("RollerPizza.Model.Address", "ClientId");
+                        .HasForeignKey("RollerPizza.Model.Address", "ClientId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Client");
                 });

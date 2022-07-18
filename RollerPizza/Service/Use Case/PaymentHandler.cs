@@ -9,13 +9,16 @@ namespace RollerPizza.Service.Use_Case
     {
         PaymentDao _paymentDao;
         ClientDao _clientDao;
+        IItemDao<Pizza> _pizzaDao;
+        IItemDao<Drink> _drinkDao;
 
-        public PaymentHandler(PaymentDao paymentDao, ClientDao clientDao)
+        public PaymentHandler(PaymentDao paymentDao, ClientDao clientDao, IItemDao<Pizza> pizzaDao, IItemDao<Drink> drinkDao)
         {
             _paymentDao = paymentDao;
             _clientDao = clientDao;
+            _pizzaDao = pizzaDao;
+            _drinkDao = drinkDao;
         }
-
 
         #region"GET"
 
@@ -107,16 +110,14 @@ namespace RollerPizza.Service.Use_Case
         #endregion
 
         #region"Add&Update"
-        public void AddPayment(Client client, PaymentAddViewModel paymentAddViewModel)
+        public void AddPayment(PaymentAddViewModel paymentAddViewModel)
         {
 
-            Payment payament = new ();
-            payament = TransformDataPayment(paymentAddViewModel);
-            payament.TotalPay = CalculateTotalPayment(payament);
+            Payment payament = TransformDataPayment(paymentAddViewModel);
             payament.PaymentId = payament.CPFId;
 
-            client.PaymentItems.Add(payament);
-            _clientDao.Update(client);
+            //client.PaymentItems.Add(payament);
+            //_clientDao.Update(client);
             _paymentDao.AddPayment(payament);
 
         }
@@ -174,39 +175,61 @@ namespace RollerPizza.Service.Use_Case
         private Payment TransformDataPayment(PaymentAddViewModel paymentAddViewModel)
         {
             Payment payament = new();
+            List<Pizza> Pizzas = new();
+            List<Drink> Drinks = new();
+            PayQuantityVsValue payQuantityVsValue = new();
+
+            foreach (var pizzaId in paymentAddViewModel.PizzasId)
+            {
+                Pizza pizza = _pizzaDao.GetById(pizzaId);
+                Pizzas.Add(pizza);
+            }
+
+            foreach (var pizzaId in paymentAddViewModel.DrinksId)
+            {
+                Drink drink = _drinkDao.GetById(pizzaId);
+                Drinks.Add(drink);
+            }
+
+            payQuantityVsValue = CalculateTotalPayment(Pizzas, Drinks);
 
             payament.CPFId = paymentAddViewModel.CPFId;
-            payament.Pizzas = paymentAddViewModel.Pizzas;
-            payament.Drinks = paymentAddViewModel.Drinks;
-            payament.TotalPay = paymentAddViewModel.TotalPay;
+            payament.Pizzas = Pizzas;
+            payament.Drinks = Drinks;
+            payament.TotalPay = payQuantityVsValue.Value;
+            payament.QuantityItems = payQuantityVsValue.Quantity;
 
             return payament;
         }
 
-        private double CalculateTotalPayment(Payment payament)
+        private PayQuantityVsValue CalculateTotalPayment(List<Pizza> pizzas, List<Drink> drinks)
         {
-            double sum = 0;
-            List<Pizza> pizzas = payament.Pizzas;
-            List<Drink> drinks = payament.Drinks;
+            PayQuantityVsValue payQuantityVsValuePizzas = ArrayExtract(pizzas);
+            PayQuantityVsValue payQuantityVsValueDrinks = ArrayExtract(drinks);
+            PayQuantityVsValue payReturn = new();
+            
+            payReturn.Quantity = payQuantityVsValuePizzas.Quantity + payQuantityVsValueDrinks.Quantity;
+            payReturn.Value = payQuantityVsValuePizzas.Value + payQuantityVsValueDrinks.Value;
 
-            sum += ArrayExtract(pizzas);
-            sum += ArrayExtract(drinks);
-
-            return sum;
+            return payReturn;
 
 
         }
 
-        private double ArrayExtract<T>(List<T> itens) where T : IItem
+        private PayQuantityVsValue ArrayExtract<T>(List<T> itens) where T : IItem
         {
-            double total = 0;
+            PayQuantityVsValue payQuantityVsValue = new();
 
+            double total = 0;
+            int quantity = itens.Count;
             foreach (T item in itens)
             {
-                total += item.Value * item.Quantity;
+                total += item.Value * quantity;
             }
 
-            return total;
+            payQuantityVsValue.Quantity = itens.Count();
+            payQuantityVsValue.Value = total;
+            return payQuantityVsValue;
         }
         #endregion
 

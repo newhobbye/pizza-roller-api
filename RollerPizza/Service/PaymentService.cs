@@ -21,19 +21,19 @@ namespace RollerPizza.Service
                     //drinks = item.Drinks;
                 }
             }
-            TotalPayAndQuantityModel totalPizzas = InterateItemValue<Pizza>(pizzas);
-            TotalPayAndQuantityModel totalDrinks = InterateItemValue<Drink>(drinks);
+            //TotalPayAndQuantityModel totalPizzas = InterateItemValue<Pizza>(pizzas);
+            //TotalPayAndQuantityModel totalDrinks = InterateItemValue<Drink>(drinks);
 
             TotalPayAndQuantityModel totalValue = new();
-            totalValue.Value = totalPizzas.Value + totalDrinks.Value;
-            totalValue.Quantity = totalPizzas.Quantity + totalDrinks.Quantity;
+            //totalValue.Value = totalPizzas.Value + totalDrinks.Value;
+            //totalValue.Quantity = totalPizzas.Quantity + totalDrinks.Quantity;
 
             //implementar a persistencia do cliente com o dao depois, e mudar o status
             return totalValue;
             
         }
 
-        public TotalPayAndQuantityModel InterateItemValue<T>(List<T> array) where T : IItem
+        /*public TotalPayAndQuantityModel InterateItemValue<T>(List<T> array) where T : IItem
         {
             TotalPayAndQuantityModel sum = new TotalPayAndQuantityModel();
 
@@ -43,6 +43,6 @@ namespace RollerPizza.Service
                 sum.Quantity += item.Quantity;
             }
             return sum;
-        }
+        }*/
     }
 }

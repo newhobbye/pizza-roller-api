@@ -14,6 +14,7 @@ namespace RollerPizza.Model
         [JsonIgnore]
         public virtual Client? Client { get; set; }
         public double? TotalPay { get; set; }
+        public int QuantityItems { get; set; }
         public DateTime DateTransaction { get; set; }
         public virtual StatusOrder StatusOrder { get; set; }
 

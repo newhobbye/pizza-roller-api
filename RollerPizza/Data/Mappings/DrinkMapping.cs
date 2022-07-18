@@ -22,9 +22,6 @@ namespace RollerPizza.Data.Mappings
                 .HasColumnType("varchar(300)")
                 .IsRequired();
 
-            builder.Property(p => p.Quantity)
-                .HasColumnType("tinyint(100)");
-
             builder.Property(p => p.Value)
                 .HasColumnType("decimal(38,2)");
 

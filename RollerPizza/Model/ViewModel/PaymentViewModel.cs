@@ -16,19 +16,15 @@ namespace RollerPizza.Model.ViewModel
     public class PaymentAddViewModel
     {
         public string? CPFId { get; set; }
-        public virtual List<Pizza>? Pizzas { get; set; }
-        public virtual List<Drink>? Drinks { get; set; }
-        public double? TotalPay { get; set; }
+        public virtual int[] PizzasId { get; set; }
+        public virtual int[] DrinksId { get; set; }
         
+    }
 
-
-        public PaymentAddViewModel()
-        {
-            Pizzas = new ();
-            Drinks = new ();
-        }
-
-        
+    public class PayQuantityVsValue
+    {
+        public int Quantity { get; set; }
+        public double Value { get; set; }
     }
 
     

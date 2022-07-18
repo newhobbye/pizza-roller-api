@@ -22,7 +22,6 @@ namespace RollerPizza.Service.Use_Case
             pizza.Id = p.Id;
             pizza.Name = p.Name;
             pizza.Description = p.Description;
-            pizza.Quantity = p.Quantity;
             pizza.Value = p.Value;
             return pizza;
         }
@@ -41,7 +40,6 @@ namespace RollerPizza.Service.Use_Case
             pizzaModel.Id = pizza.Id;
             pizzaModel.Name = pizza.Name;
             pizzaModel.Description = pizza.Description;
-            pizzaModel.Quantity = pizza.Quantity;
             pizzaModel.Value = pizza.Value;
 
             return pizzaModel;
@@ -58,7 +56,6 @@ namespace RollerPizza.Service.Use_Case
                 item.Id = pizza.Id;
                 item.Name = pizza.Name;
                 item.Description = pizza.Description;
-                item.Quantity = pizza.Quantity;
                 item.Value = pizza.Value;
 
                 pizzaModels.Add(item);
@@ -77,7 +74,6 @@ namespace RollerPizza.Service.Use_Case
             pizza.Id = pizzaModel.Id;
             pizza.Name = pizzaModel.Name;
             pizza.Description = pizzaModel.Description;
-            pizza.Quantity = pizzaModel.Quantity;
             pizza.Value = pizzaModel.Value;
 
             _pizzaDao.Add(pizza);
@@ -91,7 +87,6 @@ namespace RollerPizza.Service.Use_Case
 
             pizza.Name = pizzaModel.Name;
             pizza.Description = pizzaModel.Description;
-            pizza.Quantity = pizzaModel.Quantity;
             pizza.Value = pizzaModel.Value;
 
             _pizzaDao.Update(pizza);

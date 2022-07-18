@@ -37,7 +37,10 @@ namespace RollerPizza.Data.Mappings
 
             builder.Property(d => d.Description)
                 .HasColumnType("varchar(120)");
-     
+
+            builder.HasOne(a => a.Client)
+                .WithOne(c => c.Adress)
+                .OnDelete(DeleteBehavior.Cascade); //Obriga que ao deletar um cliente, o seu endereço seja deletado
         }
     }
 }

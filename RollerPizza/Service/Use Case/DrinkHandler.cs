@@ -24,7 +24,6 @@ namespace RollerPizza.Service.Use_Case
             drinkModel.Id = drink.Id;
             drinkModel.Name = drink.Name;
             drinkModel.Description = drink.Description;
-            drinkModel.Quantity = drink.Quantity;
             drinkModel.Value = drink.Value;
 
             return drinkModel;
@@ -43,7 +42,6 @@ namespace RollerPizza.Service.Use_Case
             drinkModel.Id = drink.Id;
             drinkModel.Name = drink.Name;
             drinkModel.Description = drink.Description;
-            drinkModel.Quantity = drink.Quantity;
             drinkModel.Value = drink.Value;
 
             return drinkModel;
@@ -61,7 +59,6 @@ namespace RollerPizza.Service.Use_Case
                 drinkModel.Id = drink.Id;
                 drinkModel.Name = drink.Name;
                 drinkModel.Description = drink.Description;
-                drinkModel.Quantity = drink.Quantity;
                 drinkModel.Value = drink.Value;
 
                 drinkModels.Add(drinkModel);
@@ -79,7 +76,6 @@ namespace RollerPizza.Service.Use_Case
             drink.Id = drinkModel.Id;
             drink.Name = drinkModel.Name;
             drink.Description = drinkModel.Description;
-            drink.Quantity = drinkModel.Quantity;
             drink.Value = drinkModel.Value;
 
             _drinkDao.Add(drink);
@@ -92,7 +88,6 @@ namespace RollerPizza.Service.Use_Case
             drink.Id = drinkModel.Id;
             drink.Name = drinkModel.Name;
             drink.Description = drinkModel.Description;
-            drink.Quantity = drinkModel.Quantity;
             drink.Value = drinkModel.Value;
 
             _drinkDao.Update(drink);

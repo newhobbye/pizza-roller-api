@@ -44,7 +44,6 @@ namespace RollerPizza.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "varchar(300)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Quantity = table.Column<sbyte>(type: "tinyint(100)", nullable: false),
                     Value = table.Column<decimal>(type: "decimal(38,2)", nullable: false)
                 },
                 constraints: table =>
@@ -63,7 +62,6 @@ namespace RollerPizza.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "varchar(300)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Quantity = table.Column<sbyte>(type: "tinyint(100)", nullable: false),
                     Value = table.Column<decimal>(type: "decimal(38,2)", nullable: false)
                 },
                 constraints: table =>
@@ -99,7 +97,8 @@ namespace RollerPizza.Migrations
                         name: "FK_Address_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
-                        principalColumn: "CPFId");
+                        principalColumn: "CPFId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -112,6 +111,7 @@ namespace RollerPizza.Migrations
                     CPFId = table.Column<string>(type: "varchar(11)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TotalPay = table.Column<decimal>(type: "decimal(38,2)", nullable: true),
+                    QuantityItems = table.Column<int>(type: "int", nullable: false),
                     DateTransaction = table.Column<DateTime>(type: "datetime", nullable: false),
                     StatusOrder = table.Column<string>(type: "varchar(15)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")

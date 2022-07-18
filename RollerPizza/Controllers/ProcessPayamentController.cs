@@ -59,7 +59,7 @@ namespace RollerPizza.Controllers
             {
                 return NotFound("Cliente invalido!");
             }
-            _shoppingKartService.ProcessShoppingCard(client, paymentAddViewModel);
+            _shoppingKartService.ProcessShoppingCard(paymentAddViewModel);
             return Ok("Pagamento adicionado.");
         }
 
