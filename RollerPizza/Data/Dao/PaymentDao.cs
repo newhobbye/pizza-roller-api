@@ -1,4 +1,5 @@
-﻿using RollerPizza.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using RollerPizza.Model;
 
 namespace RollerPizza.Data.Dao
 {
@@ -12,41 +13,41 @@ namespace RollerPizza.Data.Dao
         }
 
 
-        #region"GETAcess"
+        #region"GET"
 
         public IEnumerable<Payment> GetPaymentsByCPF(string cpf)
         {
-            return _dbContext.Payments.Where(p => p.CPFId.Equals(cpf)).ToList();
+            return _dbContext.Payments.AsNoTracking().Where(p => p.CPFId.Equals(cpf)).ToList();
         }
 
         public Payment GetPaymentByCPF(string cpf)
         {
-            return _dbContext.Payments.Where(p => p.CPFId.Equals(cpf)).FirstOrDefault();
+            return _dbContext.Payments.AsNoTracking().Where(p => p.CPFId.Equals(cpf)).FirstOrDefault();
         }
 
         public IEnumerable<Payment> GetAll()
         {
-            return _dbContext.Payments.ToList();
+            return _dbContext.Payments.AsNoTracking().ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusShoppingKart()
         {
-            return _dbContext.Payments.Where(p => p.StatusOrder.ToString().Equals("CARRINHO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("CARRINHO")).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusPayment()
         {
-            return _dbContext.Payments.Where(p => p.StatusOrder.ToString().Equals("PAGAMENTO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("PAGAMENTO")).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusPay()
         {
-            return _dbContext.Payments.Where(p => p.StatusOrder.ToString().Equals("PAGO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("PAGO")).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusFinished()
         {
-            return _dbContext.Payments.Where(p => p.StatusOrder.ToString().Equals("FINALIZADO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("FINALIZADO")).ToList();
         }
 
         #endregion

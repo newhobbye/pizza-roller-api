@@ -1,4 +1,5 @@
-﻿using RollerPizza.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using RollerPizza.Model;
 
 namespace RollerPizza.Data.Dao
 {
@@ -11,29 +12,26 @@ namespace RollerPizza.Data.Dao
             _dbContext = dbContext;
         }
 
-       public IEnumerable<Client> GetClients()
+        #region"GET"
+        public IEnumerable<Client> GetClients()
         {
-            return _dbContext.Clients.ToList();  
+            return _dbContext.Clients.ToList();
         }
 
         public Client GetClientByCPF(string cpf)
         {
-            return _dbContext.Clients.FirstOrDefault(client => client.CPFId.Equals(cpf));
-          
+            return _dbContext.Clients.AsNoTracking().FirstOrDefault(client => client.CPFId.Equals(cpf));
+
         }
 
+        #endregion
+
+        #region"Update&Add"
         public void Add(Client client)
         {
             _dbContext.Clients.Add(client);
             _dbContext.SaveChanges();
-             
-        }
 
-        public void Remove(Client client)
-        {
-            _dbContext.Clients.Remove(client);
-            _dbContext.SaveChanges();
-            
         }
 
         public void Update(Client client)
@@ -41,5 +39,18 @@ namespace RollerPizza.Data.Dao
             _dbContext.Clients.Update(client);
             _dbContext.SaveChanges();
         }
+        #endregion
+
+        #region"Remove"
+        public void Remove(Client client)
+        {
+            _dbContext.Clients.Remove(client);
+            _dbContext.SaveChanges();
+
+        }
+        #endregion
+
+
+        
     }
 }

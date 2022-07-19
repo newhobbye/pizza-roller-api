@@ -116,8 +116,6 @@ namespace RollerPizza.Service.Use_Case
             Payment payament = TransformDataPayment(paymentAddViewModel);
             payament.PaymentId = payament.CPFId;
 
-            //client.PaymentItems.Add(payament);
-            //_clientDao.Update(client);
             _paymentDao.AddPayment(payament);
 
         }
@@ -128,14 +126,10 @@ namespace RollerPizza.Service.Use_Case
 
             if (numberStatus == 1)
             {
-                payment.StatusOrder = StatusOrder.CARRINHO;
+                payment.StatusOrder = StatusOrder.PAGAMENTO;
 
             }
             else if (numberStatus == 2)
-            {
-                payment.StatusOrder = StatusOrder.PAGAMENTO;
-            }
-            else if (numberStatus == 3)
             {
                 payment.StatusOrder = StatusOrder.PAGO;
             }
