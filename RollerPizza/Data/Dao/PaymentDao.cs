@@ -17,37 +17,43 @@ namespace RollerPizza.Data.Dao
 
         public IEnumerable<Payment> GetPaymentsByCPF(string cpf)
         {
-            return _dbContext.Payments.AsNoTracking().Where(p => p.CPFId.Equals(cpf)).ToList();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks).Include(p => p.Pizzas)
+                .Where(p => p.CPFId.Equals(cpf)).ToList();
         }
 
         public Payment GetPaymentByCPF(string cpf)
         {
-            return _dbContext.Payments.AsNoTracking().Where(p => p.CPFId.Equals(cpf)).FirstOrDefault();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks).Include(p => p.Pizzas)
+                .Where(p => p.CPFId.Equals(cpf)).FirstOrDefault();
         }
 
         public IEnumerable<Payment> GetAll()
         {
-            return _dbContext.Payments.AsNoTracking().ToList();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks).Include(p => p.Pizzas).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusShoppingKart()
         {
-            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("CARRINHO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks)
+                .Include(p => p.Pizzas).Where(p => p.StatusOrder.ToString().Equals("CARRINHO")).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusPayment()
         {
-            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("PAGAMENTO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks).Include(p => p.Pizzas)
+                .Where(p => p.StatusOrder.ToString().Equals("PAGAMENTO")).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusPay()
         {
-            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("PAGO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks).Include(p => p.Pizzas)
+                .Where(p => p.StatusOrder.ToString().Equals("PAGO")).ToList();
         }
 
         public IEnumerable<Payment> GetAllStatusFinished()
         {
-            return _dbContext.Payments.AsNoTracking().Where(p => p.StatusOrder.ToString().Equals("FINALIZADO")).ToList();
+            return _dbContext.Payments.AsNoTracking().Include(c => c.Drinks).Include(p => p.Pizzas)
+                .Where(p => p.StatusOrder.ToString().Equals("FINALIZADO")).ToList();
         }
 
         #endregion

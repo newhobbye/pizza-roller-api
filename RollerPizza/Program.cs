@@ -4,7 +4,6 @@ using RollerPizza.Data.Dao;
 using RollerPizza.Model;
 using RollerPizza.Service;
 using RollerPizza.Service.Use_Case;
-using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("ContextConnection");
@@ -50,6 +49,7 @@ builder.Services.AddScoped<PaymentHandler>();
 
 #region"Dependencias de Serviços"
 builder.Services.AddScoped<ShoppingKartService>();
+builder.Services.AddScoped<LoginService>();
 #endregion
 
 #region"Dependencia de Autenticação de login"
